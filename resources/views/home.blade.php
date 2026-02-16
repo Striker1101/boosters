@@ -503,7 +503,7 @@
                         <button
                             class="w-full py-3 mt-4 font-bold transition-all btn-primary rounded-xl active:scale-95 btn-open-modal"
                             data-slug="{{ $offer['slug'] }}" data-name="{{ $offer['text'] }}">
-                            Buy Now
+                            Get For Free
                         </button>
                     </div>
                 @endforeach
