@@ -23,7 +23,30 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+         'referral_code',
+    'referral_id',
+    'referral_user_id',
     ];
+
+     // Users this user referred
+    public function referred_users()
+    {
+        return $this->hasMany(
+            User::class,
+            'referral_user_id', // foreign key on users table
+            'id'                // local key
+        );
+    }
+
+    // Logs related to this user via referral_code
+    public function logs()
+    {
+        return $this->hasMany(
+            Log::class,
+            'referral_code_id', // logs.referral_code_id
+            'referral_code'     // users.referral_code
+        );
+    }
 
     /**
      * The attributes that should be hidden for serialization.

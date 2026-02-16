@@ -11,15 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+       Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email')->unique();
+    $table->timestamp('email_verified_at')->nullable();
+    $table->string('password');
+    $table->string('referral_code')->nullable()->unique();
+    $table->string('referral_id')->nullable();
+    $table->string('referral_user_id')->nullable();
+    $table->date('sub_start')->nullable();
+    $table->boolean("is_disabled")->nullable();
+    $table->enum('role', ['customer', 'user', 'admin'])->default('user');
+    $table->rememberToken();
+    $table->timestamps();
+});
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
