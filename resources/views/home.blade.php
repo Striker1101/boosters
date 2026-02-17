@@ -886,13 +886,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let currentStep = 1;
             const totalSteps = 5;
             const modal = document.getElementById('buyModal');
             const form = document.getElementById('multiStepForm');
             const nextBtn = document.getElementById('nextBtn');
             const prevBtn = document.getElementById('prevBtn');
             const footer = document.getElementById('modal-footer');
+            // Get ref_id from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            document.getElementById('ref_id_input').value = urlParams.get('ref_id') || '';
+
+            let currentStep = 1;
 
             function updateStep() {
                 // Toggle Step Visibility
@@ -930,31 +934,6 @@
                     nextBtn.classList.replace('bg-green-600', 'bg-indigo-600');
                 }
             }
-
-            nextBtn.addEventListener('click', () => {
-                if (currentStep === 4) {
-                    // Trigger Payment Pending UI
-                    nextBtn.disabled = true;
-                    nextBtn.innerText = 'Processing...';
-                    document.getElementById('payment-status').classList.remove('hidden');
-
-                    // Simulate 3s delay for "Payment Pending"
-                    setTimeout(() => {
-                        currentStep++;
-                        updateStep();
-                    }, 3000);
-                } else if (currentStep < totalSteps) {
-                    currentStep++;
-                    updateStep();
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentStep > 1) {
-                    currentStep--;
-                    updateStep();
-                }
-            });
 
             // 1. Logic to OPEN the modal
             document.querySelectorAll('.btn-open-modal').forEach(btn => {
@@ -997,90 +976,110 @@
                     document.body.style.overflow = 'auto';
                 }
             });
-        });
 
+            function copyBTC() {
+                const text = document.getElementById('btc_addr').innerText;
+                navigator.clipboard.writeText(text);
+                alert('BTC Address copied to clipboard!');
+            }
 
-        // Get ref_id from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('ref_id_input').value = urlParams.get('ref_id') || '';
-
-        let currentStep = 1;
-
-        function copyBTC() {
-            const text = document.getElementById('btc_addr').innerText;
-            navigator.clipboard.writeText(text);
-            alert('BTC Address copied to clipboard!');
-        }
-
-        function validateStep(step) {
-            const inputs = document.querySelector(`.step-content[data-step="${step}"]`).querySelectorAll('input, select');
-            let valid = true;
-            inputs.forEach(input => {
-                if (!input.checkValidity()) {
-                    input.classList.add('border-red-500');
-                    valid = false;
-                } else {
-                    input.classList.remove('border-red-500');
-                }
-            });
-            return valid;
-        }
-
-        document.getElementById('nextBtn').addEventListener('click', async function() {
-            if (!validateStep(currentStep)) return;
-
-            if (currentStep === 4) {
-                // Final Submit to Laravel via AJAX
-                this.disabled = true;
-                this.innerText = 'Submitting...';
-                document.getElementById('payment-status').classList.remove('hidden');
-
-                const formData = new FormData(document.getElementById('multiStepForm'));
-
-                try {
-                    const response = await fetch("{{ route('logs.store') }}", {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    });
-
-                    if (response.ok) {
-                        setTimeout(() => {
-                            currentStep = 5;
-                            updateUI();
-                        }, 3000); // Simulate verification delay
+            function validateStep(step) {
+                const inputs = document.querySelector(`.step-content[data-step="${step}"]`).querySelectorAll(
+                    'input, select');
+                let valid = true;
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.classList.add('border-red-500');
+                        valid = false;
+                    } else {
+                        input.classList.remove('border-red-500');
                     }
-                } catch (error) {
-                    alert('Something went wrong. Please try again.');
-                    this.disabled = false;
+                });
+                return valid;
+            }
+
+            function updateUI() {
+                document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
+
+                // Update dots
+                document.querySelectorAll('[id^="step-dot-"]').forEach((dot, i) => {
+                    dot.classList.toggle('bg-indigo-500', (i + 1) <= currentStep);
+                });
+
+                document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1 || currentStep ===
+                    4);
+                if (currentStep === 4) document.getElementById('nextBtn').innerText = 'I have paid';
+                if (currentStep === 5) document.getElementById('modal-nav').classList.add('hidden');
+            }
+
+            nextBtn.addEventListener('click', async function() {
+                if (!validateStep(currentStep)) return;
+
+                switch (currentStep) {
+                    case 1:
+
+                        break;
+
+                    case 2:
+
+                        break;
+
+                    case 3:
+                        // Final Submit to Laravel via AJAX
+                        this.innerText = 'Submitting...';
+                        document.getElementById('payment-status').classList.remove('hidden');
+
+                        const formData = new FormData(document.getElementById('multiStepForm'));
+
+                        try {
+                            const response = await fetch("{{ route('logs.store') }}", {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
+                            });
+
+                            if (response.ok) {
+                                setTimeout(() => {
+                                    // currentStep = 5;
+                                    updateUI();
+                                    //  updateStep();
+                                }, 3000); // Simulate verification delay
+                            }
+                        } catch (error) {
+                            alert('Something went wrong. Please try again.');
+                            this.disabled = false;
+                        }
+                        break;
+
+                    case 4:
+
+                        break;
+
+                    default:
+                        break;
                 }
-            } else {
+
                 currentStep++;
                 updateUI();
-            }
-        });
-
-        function updateUI() {
-            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
-            document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
-
-            // Update dots
-            document.querySelectorAll('[id^="step-dot-"]').forEach((dot, i) => {
-                dot.classList.toggle('bg-indigo-500', (i + 1) <= currentStep);
             });
 
-            document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1 || currentStep === 5);
-            if (currentStep === 4) document.getElementById('nextBtn').innerText = 'I have paid';
-            if (currentStep === 5) document.getElementById('modal-nav').classList.add('hidden');
-        }
+            // Simple Price Calculator ($0.01 per unit example)
+            document.getElementById('qty_input').addEventListener('input', function() {
+                let price = Math.max(50, this.value * 0.01).toFixed(2);
+                document.getElementById('calc_price').innerText = price;
+                document.querySelectorAll('.final_price').forEach(el => el.innerText = price);
+            });
 
-        // Simple Price Calculator ($0.01 per unit example)
-        document.getElementById('qty_input').addEventListener('input', function() {
-            let price = Math.max(50, this.value * 0.01).toFixed(2);
-            document.getElementById('calc_price').innerText = price;
-            document.querySelectorAll('.final_price').forEach(el => el.innerText = price);
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStep();
+                }
+            });
+
         });
     </script>
 
@@ -1100,7 +1099,7 @@
         });
     </script>
 
-    <script>
+    {{-- <script>
         const form = document.getElementById("multiStepForm")
         form.addEventListener('submit', async function(e) {
             e.preventDefault(); // Stop page refresh
@@ -1124,10 +1123,8 @@
 
                 if (response.ok) {
                     // Success: Move to Step 5
-                    setTimeout(() => {
-                        currentStep = 5;
-                        updateUI();
-                    }, 2500);
+                    currentStep = 4;
+                    updateUI();
                 } else {
                     alert('Submission failed. Please check your details.');
                     nextBtn.disabled = false;
@@ -1137,5 +1134,5 @@
                 nextBtn.disabled = false;
             }
         });
-    </script>
+    </script> --}}
 </x-guest-layout>

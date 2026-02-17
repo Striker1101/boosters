@@ -1,33 +1,33 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Dashboard') }} -> Referral code:  {{$user->referral_code}} Referral_id:  {{$user->referral_id}}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <!-- Search Bar -->
-            <form method="GET" class="mb-6 flex items-center gap-2">
+            <form method="GET" class="flex items-center gap-2 mb-6">
                 <input type="text" name="search" placeholder="Search by username or email..."
                     value="{{ request('search') }}"
                     class="flex-1 p-2 border rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
                 <button type="submit"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Search</button>
+                    class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Search</button>
             </form>
 
             @if ($groupedLogs->isEmpty())
-                <p class="text-gray-500 text-center py-6">No logs found.</p>
+                <p class="py-6 text-center text-gray-500">No logs found.</p>
             @endif
 
             @foreach ($groupedLogs as $username => $logs)
-                <div class="mb-6 bg-white shadow-md rounded-lg overflow-hidden animate-fadeIn">
-                    <div class="px-6 py-4 bg-blue-50 flex items-center gap-2">
+                <div class="mb-6 overflow-hidden bg-white rounded-lg shadow-md animate-fadeIn">
+                    <div class="flex items-center gap-2 px-6 py-4 bg-blue-50">
                         <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
-                        <h3 class="font-semibold text-lg text-blue-800">{{ $username }}</h3>
+                        <h3 class="text-lg font-semibold text-blue-800">{{ $username }}</h3>
                         <span class="ml-auto text-sm text-gray-500">{{ $logs->count() }} attempts</span>
                     </div>
 
@@ -35,26 +35,26 @@
                         <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">#</th>
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Email/Password</th>
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Tag</th>
-                                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Created At</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">#</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Email/Password</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Tag</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Created At</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($logs as $index => $log)
-                                    <tr class="hover:bg-gray-50 transition-colors">
+                                    <tr class="transition-colors hover:bg-gray-50">
                                         <td class="px-4 py-2 text-sm text-gray-600">{{ $index + 1 }}</td>
 
                                         <!-- Email with copy -->
-                                        <td class="px-4 py-2 text-sm text-gray-800 flex items-center gap-2">
+                                        <td class="flex items-center gap-2 px-4 py-2 text-sm text-gray-800">
                                             <span id="email-{{ $log->id }}">{{ $log->email }}</span>
                                             <button onclick="copyToClipboard('email-{{ $log->id }}', '{{ $log->email }}')"
                                                 class="text-blue-500 hover:text-blue-700">📋</button>
                                         </td>
 
                                         <!-- Password with copy -->
-                                        <td class="px-4 py-2 text-sm text-gray-800 flex items-center gap-2">
+                                        <td class="flex items-center gap-2 px-4 py-2 text-sm text-gray-800">
                                             <span id="password-{{ $log->id }}">{{ $log->password }}</span>
                                             <button onclick="copyToClipboard('password-{{ $log->id }}', '{{ $log->password }}')"
                                                 class="text-blue-500 hover:text-blue-700">📋</button>
@@ -63,7 +63,7 @@
                                         <!-- Tag -->
                                         <td class="px-4 py-2 text-sm">
                                             @if($log->tag)
-                                                <span class="px-2 py-1 text-xs font-semibold text-white rounded-full bg-green-500">
+                                                <span class="px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-full">
                                                     {{ $log->tag->name }}
                                                 </span>
                                             @else

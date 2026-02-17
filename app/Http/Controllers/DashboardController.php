@@ -37,7 +37,7 @@ class DashboardController extends Controller
         // Group by username
         $groupedLogs = $logs->groupBy('username');
 
-        return view('dashboard', compact('groupedLogs'));
+        return view('dashboard', compact('groupedLogs','user'));
     }
 
  public function get_users(Request $request)
