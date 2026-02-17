@@ -38,6 +38,10 @@ Route::post('log', function () {
     return view('log');
 })->name('log.create');
 
+Route::get('/link-storage', function () {
+    Artisan::call('storage:link');
+    return 'Storage linked successfully';
+});
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'get_dashboard'])->name('dashboard');

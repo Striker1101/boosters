@@ -685,7 +685,7 @@
             <p>Join thousands of influencers and businesses growing their social media presence</p>
             <a href="#" class="btn btn-primary btn-large">Start Your Free Trial</a>
         </section>
-
+{{--
         <!-- Footer -->
 <footer class="relative z-10 bg-[#0a0a0a] border-t border-white/5 pt-20 pb-10">
     <div class="px-6 mx-auto max-w-7xl">
@@ -766,7 +766,7 @@
             </div>
         </div>
     </div>
-</footer>
+</footer> --}}
 
         <script>
             // Create animated particles
