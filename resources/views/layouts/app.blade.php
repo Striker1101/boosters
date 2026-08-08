@@ -6,7 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Boosters') }}</title>
+    <title>{{ $title ?? config('app.name', 'Boosters') }}</title>
+
+    <meta name="description" content="{{ $description ?? '' }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $title ?? config('app.name', 'Boosters') }}">
+    <meta property="og:description" content="{{ $description ?? '' }}">
+    <meta property="og:image" content="{{ $image ?? asset('logo.svg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{{ $title ?? config('app.name', 'Boosters') }}">
+    <meta property="twitter:description" content="{{ $description ?? '' }}">
+    <meta property="twitter:image" content="{{ $image ?? asset('logo.svg') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

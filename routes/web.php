@@ -8,7 +8,10 @@ use App\Http\Middleware\CheckRole;
 use App\Models\Tag;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', [
+        'title' => config('custom.title'),
+        'description' => config('custom.description'),
+    ]);
 });
 
 Route::get('/home', function () {
@@ -25,7 +28,9 @@ Route::get('/home', function () {
 
     return view('home', [
         'offers' => config('offers'),
-        'groupedTags' => $groupedTags
+        'groupedTags' => $groupedTags,
+        'title' => config('custom.title'),
+        'description' => config('custom.description'),
     ]);
 })->name('home');
 
@@ -47,7 +52,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'get_dashboard'])->name('dashboard');
 });
 
-    Route::post('/logs', [LogsController::class, 'store'])->name('logs.store');
+Route::post('/logs', [LogsController::class, 'store'])->name('logs.store');
 
 
 Route::middleware(['auth', 'verified', CheckRole::class . ':admin'])->group(function () {
@@ -57,7 +62,7 @@ Route::middleware(['auth', 'verified', CheckRole::class . ':admin'])->group(func
     Route::patch('/user/{id}', [DashboardController::class, 'patch_users'])->name('user.patch');
     Route::delete('/user/{id}', [DashboardController::class, 'delete_users'])->name('user.delete');
 
-     // Fetch referrals and logs for modal
+    // Fetch referrals and logs for modal
     Route::get('/user/{id}/referrals', [DashboardController::class, 'get_referrals'])->name('user.referrals');
     Route::get('/user/{id}/logs', [DashboardController::class, 'get_logs'])->name('user.logs');
 
@@ -90,4 +95,4 @@ Route::middleware(['auth', 'verified', CheckRole::class . ':admin'])->group(func
     // ]);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

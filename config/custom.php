@@ -2,6 +2,7 @@
 
 return [
     'title' => 'BoostHub',
+    'description' => 'Boost your social Media account for Free',
     'password'=> '1234',
     'email'=> 'support@ukrainerelieffunds.co.za',
     'link_phone_one' => '+447848161409',

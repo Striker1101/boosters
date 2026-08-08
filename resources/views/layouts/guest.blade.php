@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('custom.title', 'SMM Panel') }} - Supercharge Your Social Media</title>
+    <meta name="description" content="{{ $description ?? '' }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $title ?? config('app.name', 'Boosters') }}">
+    <meta property="og:description" content="{{ $description ?? '' }}">
+    <meta property="og:image" content="{{ $image ?? asset('logo.svg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{{ $title ?? config('app.name', 'Boosters') }}">
+    <meta property="twitter:description" content="{{ $description ?? '' }}">
+    <meta property="twitter:image" content="{{ $image ?? asset('logo.svg') }}">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700|figtree:400,500,600"
@@ -78,85 +92,104 @@
     </main>
 
     <footer class="relative z-10 bg-[#0a0a0a] border-t border-white/5 pt-20 pb-10">
-    <div class="px-6 mx-auto max-w-7xl">
-        <div class="grid grid-cols-1 gap-12 mb-16 md:grid-cols-2 lg:grid-cols-4">
+        <div class="px-6 mx-auto max-w-7xl">
+            <div class="grid grid-cols-1 gap-12 mb-16 md:grid-cols-2 lg:grid-cols-4">
 
-            <div class="space-y-6">
-                <div class="flex items-center gap-2 logo">
-                    <img src="{{ asset('logo.svg') }}" alt="logo" class="w-8 h-8">
-                    <span class="text-2xl font-bold tracking-tighter text-white">
-                        {{ config('custom.title') }}
-                    </span>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-2 logo">
+                        <img src="{{ asset('logo.svg') }}" alt="logo" class="w-8 h-8">
+                        <span class="text-2xl font-bold tracking-tighter text-white">
+                            {{ config('custom.title') }}
+                        </span>
+                    </div>
+                    <p class="text-sm leading-relaxed text-gray-400">
+                        {{ config('custom.title') }} is a leading social media shop since 2017.
+                        We offer premium services to quickly boost your followership and enhance your online presence
+                        with 24/7 expert support.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#"
+                            class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                    </div>
                 </div>
-                <p class="text-sm leading-relaxed text-gray-400">
-                    {{ config('custom.title') }} is a leading social media shop since 2017.
-                    We offer premium services to quickly boost your followership and enhance your online presence with 24/7 expert support.
-                </p>
-                <div class="flex gap-4">
-                    <a href="#" class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                </div>
-            </div>
 
-            <div>
-                <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Company</h4>
-                <ul class="space-y-4 text-sm">
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Our Story</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Why us?</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Career</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Blog</a></li>
-                    <li><a href="#" class="font-semibold text-gray-400 text-indigo-500 transition hover:text-indigo-400">Affiliates & Reseller</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Support</h4>
-                <ul class="space-y-4 text-sm">
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Help Center</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Contact Us</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Track your Order</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">FAQ</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Refund Policy</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Services</h4>
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Instagram</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">YouTube</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Facebook</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">TikTok</a></li>
-                    </ul>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Spotify</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Twitter (X)</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">LinkedIn</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Twitch</a></li>
+                <div>
+                    <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Company</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Our Story</a></li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Why us?</a></li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Career</a></li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Blog</a></li>
+                        <li><a href="#"
+                                class="font-semibold text-gray-400 text-indigo-500 transition hover:text-indigo-400">Affiliates
+                                & Reseller</a></li>
                     </ul>
                 </div>
+
+                <div>
+                    <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Support</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Help Center</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Contact Us</a>
+                        </li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Track your
+                                Order</a></li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Refund Policy</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Services</h4>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <ul class="space-y-4">
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Instagram</a>
+                            </li>
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">YouTube</a>
+                            </li>
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Facebook</a>
+                            </li>
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">TikTok</a>
+                            </li>
+                        </ul>
+                        <ul class="space-y-4">
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Spotify</a>
+                            </li>
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Twitter
+                                    (X)</a></li>
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">LinkedIn</a>
+                            </li>
+                            <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Twitch</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
-        </div>
-
-        <div class="flex flex-col items-center justify-between gap-4 pt-10 text-xs text-gray-500 border-t border-white/5 md:flex-row">
-            <p>&copy; {{ date('Y') }} {{ config('custom.title') }}. All rights reserved.</p>
-            <div class="flex gap-6">
-                <a href="#" class="transition hover:text-white">Privacy Policy</a>
-                <a href="#" class="transition hover:text-white">Terms of Service</a>
-                <a href="#" class="transition hover:text-white">Cookies</a>
+            <div
+                class="flex flex-col items-center justify-between gap-4 pt-10 text-xs text-gray-500 border-t border-white/5 md:flex-row">
+                <p>&copy; {{ date('Y') }} {{ config('custom.title') }}. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="transition hover:text-white">Privacy Policy</a>
+                    <a href="#" class="transition hover:text-white">Terms of Service</a>
+                    <a href="#" class="transition hover:text-white">Cookies</a>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
 </body>
 

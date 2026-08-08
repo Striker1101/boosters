@@ -478,7 +478,7 @@
         </div>
 
         <section class="features" id="services">
-            <h4 class="section-title">BEST OFFERS</h4>
+            <h4 class="text-white section-title">BEST OFFERS</h4>
             <div class="features-grid">
                 @foreach ($offers as $offer)
                     <div class="p-6 feature-card rounded-2xl">
@@ -634,7 +634,7 @@
                         </div>
 
                         <div class="hidden step-content" data-step="2">
-                            <h2 class="mb-6 text-xl font-bold text-white">Who are we boosting?</h2>
+                            <h2 class="mb-6 text-xl font-bold text-white">Who are we boosting? (Username) <span class="red">*</span></h2>
                             <input type="text" name="username" required
                                 class="w-full px-4 py-3 text-white border outline-none bg-white/5 border-white/10 rounded-xl"
                                 placeholder="Enter Username">
