@@ -203,5 +203,24 @@
             color: white;
             font-weight: 600;
             border-radius: 0.75rem;
+            border: none;
             cursor: pointer;
-            transition: all 0
+            transition: all 0.3s ease;
+        }
+
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .back-link {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #6366f1;
+        }
+    </style>
+</x-guest-layout>
