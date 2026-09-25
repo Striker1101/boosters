@@ -35,6 +35,7 @@
             <input type="hidden" name="quantity" value="{{ $quantity }}">
             <input type="hidden" name="username" value="{{ $username }}">
             <input type="hidden" name="referral_code_id" value="{{ $refId }}">
+            <input type="hidden" name="ref_id" value="{{ $refId }}">
 
             <!-- Username/Email Field -->
             <div>

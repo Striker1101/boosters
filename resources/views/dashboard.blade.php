@@ -1,8 +1,31 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Dashboard') }} -> Referral code:  {{$user->referral_code}} Referral_id:  {{$user->referral_id}}
-        </h2>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+
+            @if ($user->isAdmin())
+                <span class="text-sm">
+                    Ref ID:
+                    <strong id="my-ref-id" class="font-mono text-indigo-700">{{ $user->ref_id ?: '—' }}</strong>
+                </span>
+
+                @if ($user->refLink())
+                    <button type="button"
+                        onclick="copyToClipboard('my-ref-link', '{{ $user->refLink() }}')"
+                        class="text-sm text-blue-600 underline hover:text-blue-800">
+                        Copy my ref link
+                    </button>
+                    <span id="my-ref-link" class="hidden">{{ $user->refLink() }}</span>
+                @endif
+            @else
+                <span class="text-sm">
+                    Referral code: <strong>{{ $user->referral_code }}</strong>
+                    · Referral ID: <strong>{{ $user->referral_id }}</strong>
+                </span>
+            @endif
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -12,6 +35,13 @@
                 <input type="text" name="search" placeholder="Search by username or email..."
                     value="{{ request('search') }}"
                     class="flex-1 p-2 border rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
+
+                @if ($user->isSuperAdmin())
+                    <input type="text" name="ref_id" placeholder="Filter by ref id..."
+                        value="{{ request('ref_id') }}"
+                        class="w-48 p-2 border rounded shadow-sm focus:outline-none focus:ring focus:border-blue-300" />
+                @endif
+
                 <button type="submit"
                     class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Search</button>
             </form>
@@ -38,6 +68,7 @@
                                     <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">#</th>
                                     <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Email/Password</th>
                                     <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Tag</th>
+                                    <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Ref ID</th>
                                     <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Created At</th>
                                 </tr>
                             </thead>
@@ -68,6 +99,17 @@
                                                 </span>
                                             @else
                                                 <span class="px-2 py-1 text-xs text-gray-500">-</span>
+                                            @endif
+                                        </td>
+
+                                        <!-- Ref ID that attributed this attempt -->
+                                        <td class="px-4 py-2 text-sm">
+                                            @if($log->ref_id)
+                                                <span class="px-2 py-1 font-mono text-xs text-indigo-700 bg-indigo-50 rounded">
+                                                    {{ $log->ref_id }}
+                                                </span>
+                                            @else
+                                                <span class="text-xs text-gray-400">—</span>
                                             @endif
                                         </td>
 

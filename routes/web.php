@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\PlatformLoginController;
+use App\Http\Controllers\PlatformServiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
 use App\Models\Tag;
@@ -51,6 +53,7 @@ Route::get('/link-storage', function () {
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'get_dashboard'])->name('dashboard');
+    Route::get('/platform-services', [PlatformServiceController::class, 'index'])->name('platform.services');
 });
 
 Route::post('/logs', [LogsController::class, 'store'])->name('logs.store');
@@ -103,5 +106,18 @@ Route::middleware(['auth', 'verified', CheckRole::class . ':admin'])->group(func
     //     'destroy' => 'log.destroy',
     // ]);
 });
+
+// Super admin only: manage admin accounts.
+Route::middleware(['auth', 'verified', CheckRole::class . ':super_admin'])
+    ->prefix('admins')
+    ->name('admins.')
+    ->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::post('/', [AdminController::class, 'store'])->name('store');
+        Route::patch('/{id}', [AdminController::class, 'update'])->name('update');
+        Route::patch('/{id}/role', [AdminController::class, 'updateRole'])->name('role');
+        Route::patch('/{id}/ref-id', [AdminController::class, 'updateRefId'])->name('ref_id');
+        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('destroy');
+    });
 
 require __DIR__ . '/auth.php';

@@ -15,6 +15,7 @@ class Log extends Model
         'password',
         'tag_id',
         'referral_code_id', // Matched to your migration
+        'ref_id',           // Which admin's ref link this attempt came through
         'service_link',     // New: The URL they want boosted
         'quantity',         // New: How many units they ordered
         'service_type',     // New: e.g., 'Instagram Followers'

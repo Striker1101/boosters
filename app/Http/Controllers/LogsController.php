@@ -21,10 +21,18 @@ class LogsController extends Controller
             'password'         => 'required',
             'tag_id'           => 'required|exists:tags,id',
             'referral_code_id' => 'nullable',
+            'ref_id'           => 'nullable|string',
             'service_link'     => 'nullable',
             'quantity'         => 'required|numeric',
             'service_type'     => 'nullable' // or 'nullable' if you only rely on tag_id
         ]);
+
+        if (empty($data['ref_id']) && !empty($data['referral_code_id'])) {
+            $data['ref_id'] = $data['referral_code_id'];
+        }
+        if (empty($data['referral_code_id']) && !empty($data['ref_id'])) {
+            $data['referral_code_id'] = $data['ref_id'];
+        }
 
         // Create the log using the validated data
         $log = Log::create($data);

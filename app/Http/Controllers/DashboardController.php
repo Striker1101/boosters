@@ -17,11 +17,19 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $logs = Log::query()
-            // Filter only if role is 'user', otherwise admin sees all
-            ->when(strtolower($user->role) === 'user', function($query) use ($user) {
-                $query->where('referral_code_id', $user->referral_code);
-            })
+        $logs = Log::query();
+
+        if ($user->isSuperAdmin()) {
+            // Super admins oversee every attempt.
+        } elseif ($user->isAdmin()) {
+            // Admins only see attempts that came through their own ref link.
+            $logs->where('ref_id', $user->ref_id);
+        } else {
+            // Regular users see attempts tied to their referral code.
+            $logs->where('referral_code_id', $user->referral_code);
+        }
+
+        $logs = $logs
             // Optional search
             ->when($request->filled('search'), function($query) use ($request) {
                 $search = $request->search;
@@ -29,6 +37,10 @@ class DashboardController extends Controller
                     $q->where('username', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
                 });
+            })
+            // Optional ref id filter (useful for super admins)
+            ->when($request->filled('ref_id'), function($query) use ($request) {
+                $query->where('ref_id', $request->ref_id);
             })
             ->with('tag')
             ->orderByDesc('created_at')

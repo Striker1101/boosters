@@ -321,6 +321,22 @@
             box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
         }
 
+        .feature-card.highlighted-card {
+            border-color: rgba(99, 102, 241, 0.9) !important;
+            box-shadow: 0 0 35px rgba(99, 102, 241, 0.5), inset 0 0 20px rgba(99, 102, 241, 0.2) !important;
+            transform: translateY(-8px) scale(1.02);
+            animation: cardGlow 2.5s ease-in-out infinite;
+        }
+
+        @keyframes cardGlow {
+            0%, 100% {
+                box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 45px rgba(236, 72, 153, 0.6);
+            }
+        }
+
         .feature-icon {
             width: 60px;
             height: 60px;
@@ -481,7 +497,11 @@
             <h4 class="text-white section-title">BEST OFFERS</h4>
             <div class="features-grid">
                 @foreach ($offers as $offer)
-                    <div class="p-6 feature-card rounded-2xl">
+                    <div class="p-6 feature-card rounded-2xl"
+                        id="offer-{{ $offer['slug'] }}"
+                        data-slug="{{ $offer['slug'] }}"
+                        data-platform="{{ strtolower($offer['icon'] ?? '') }}"
+                        data-service="{{ strtolower($offer['text']) }}">
                         <div class="flex items-start justify-between mb-2">
                             <span
                                 class="bg-gradient-to-r from-indigo-600 to-violet-600 text-[10px] px-3 py-1 rounded-full font-bold text-white tracking-widest uppercase">
@@ -593,9 +613,15 @@
                         @csrf
                         <input type="hidden" name="service_type" id="service_type_input">
                         <input type="hidden" name="referral_code_id" id="referral_code_id">
+                        <input type="hidden" name="ref_id" id="ref_id_input">
 
                         <div class="step-content" data-step="1">
-                            <h2 class="mb-6 text-xl font-bold text-white uppercase">Configure Service</h2>
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-xl font-bold text-white uppercase">Configure Service</h2>
+                                <span id="ref_indicator_badge" class="hidden text-[10px] font-mono font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 rounded-full">
+                                    Ref: <span id="ref_indicator_val"></span>
+                                </span>
+                            </div>
                             <div class="space-y-4">
                                 <div>
                                     <div class="flex items-center justify-between mb-2">
@@ -968,72 +994,107 @@
             }
             const updateUI = updateStep;
 
-            // References for Service Auto-fill
+            // References for Service Auto-fill & Modal
             const serviceSelect = document.getElementById('service_select');
             const serviceTypeInput = document.getElementById('service_type_input');
             const autoSelectedBadge = document.getElementById('auto_selected_badge');
+            const refCodeInput = document.getElementById('referral_code_id');
+            const refIdInput = document.getElementById('ref_id_input');
+            const refBadge = document.getElementById('ref_indicator_badge');
+            const refVal = document.getElementById('ref_indicator_val');
 
-            // 1. Logic to OPEN the modal & AUTO-FILL Platform & Service
+            // Select matching option in #service_select
+            function selectServiceOption(platform, slug, serviceName) {
+                if (!serviceSelect) return false;
+                let matchedOption = null;
+
+                platform = (platform || '').toLowerCase().trim();
+                slug = (slug || '').toLowerCase().trim();
+                serviceName = (serviceName || '').toLowerCase().trim();
+
+                if (platform === 'x') platform = 'twitter';
+
+                // Priority 1: Match by platform AND slug
+                if (slug) {
+                    matchedOption = Array.from(serviceSelect.options).find(opt => 
+                        (opt.dataset.platform || '').toLowerCase() === platform && 
+                        (opt.dataset.slug || '').toLowerCase() === slug
+                    );
+                }
+
+                // Priority 2: Match by slug alone
+                if (!matchedOption && slug) {
+                    matchedOption = Array.from(serviceSelect.options).find(opt => 
+                        (opt.dataset.slug || '').toLowerCase() === slug
+                    );
+                }
+
+                // Priority 3: Match by platform AND service name
+                if (!matchedOption && serviceName) {
+                    matchedOption = Array.from(serviceSelect.options).find(opt => 
+                        (opt.dataset.platform || '').toLowerCase() === platform && 
+                        (opt.dataset.service || '').toLowerCase() === serviceName
+                    );
+                }
+
+                // Priority 4: Match by service name alone
+                if (!matchedOption && serviceName) {
+                    matchedOption = Array.from(serviceSelect.options).find(opt => 
+                        (opt.dataset.service || '').toLowerCase() === serviceName
+                    );
+                }
+
+                // Priority 5: Match by platform alone
+                if (!matchedOption && platform) {
+                    matchedOption = Array.from(serviceSelect.options).find(opt => 
+                        (opt.dataset.platform || '').toLowerCase() === platform
+                    );
+                }
+
+                if (matchedOption) {
+                    matchedOption.selected = true;
+                    serviceSelect.value = matchedOption.value;
+
+                    if (serviceTypeInput) {
+                        serviceTypeInput.value = matchedOption.dataset.service || matchedOption.text.trim();
+                    }
+
+                    if (autoSelectedBadge) {
+                        autoSelectedBadge.classList.remove('hidden');
+                        autoSelectedBadge.innerHTML = '<i class="fa-solid fa-check mr-1 text-[9px]"></i> Auto-Selected';
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+            function openModal(platform, slug, serviceName) {
+                currentStep = 1;
+                updateStep();
+
+                if (platform || slug || serviceName) {
+                    selectServiceOption(platform, slug, serviceName);
+                }
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Click listener for all card "Get For Free" buttons
             document.querySelectorAll('.btn-open-modal').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-
-                    // Reset to Step 1
-                    currentStep = 1;
-                    updateStep();
-
-                    // Read metadata from clicked card button
                     const platform = (btn.getAttribute('data-platform') || '').toLowerCase().trim();
                     const slug = (btn.getAttribute('data-slug') || '').toLowerCase().trim();
                     const serviceName = (btn.getAttribute('data-service') || btn.getAttribute('data-name') || '').toLowerCase().trim();
-
-                    if (serviceSelect && platform) {
-                        let matchedOption = null;
-
-                        // Priority 1: Match by platform AND slug
-                        if (slug) {
-                            matchedOption = Array.from(serviceSelect.options).find(opt => 
-                                (opt.dataset.platform || '').toLowerCase() === platform && 
-                                (opt.dataset.slug || '').toLowerCase() === slug
-                            );
-                        }
-
-                        // Priority 2: Match by platform AND service name
-                        if (!matchedOption && serviceName) {
-                            matchedOption = Array.from(serviceSelect.options).find(opt => 
-                                (opt.dataset.platform || '').toLowerCase() === platform && 
-                                (opt.dataset.service || '').toLowerCase() === serviceName
-                            );
-                        }
-
-                        // Priority 3: Match by platform alone
-                        if (!matchedOption) {
-                            matchedOption = Array.from(serviceSelect.options).find(opt => 
-                                (opt.dataset.platform || '').toLowerCase() === platform
-                            );
-                        }
-
-                        if (matchedOption) {
-                            matchedOption.selected = true;
-                            serviceSelect.value = matchedOption.value;
-
-                            if (serviceTypeInput) {
-                                serviceTypeInput.value = matchedOption.dataset.service || matchedOption.text.trim();
-                            }
-
-                            if (autoSelectedBadge) {
-                                autoSelectedBadge.classList.remove('hidden');
-                                autoSelectedBadge.innerHTML = '<i class="fa-solid fa-check mr-1 text-[9px]"></i> Auto-Selected';
-                            }
-                        }
-                    }
-
-                    // Show Modal
-                    modal.classList.remove('hidden');
-                    modal.classList.add('flex');
-
-                    // Prevent background scrolling
-                    document.body.style.overflow = 'hidden';
+                    openModal(platform, slug, serviceName);
                 });
             });
 
@@ -1053,26 +1114,16 @@
                 });
             }
 
-            // 2. Logic to CLOSE the modal
+            // Close button
             const closeModalBtn = document.getElementById('closeModalBtn');
-
             if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', function() {
-                    // Hide Modal
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-
-                    // Restore background scrolling
-                    document.body.style.overflow = 'auto';
-                });
+                closeModalBtn.addEventListener('click', closeModal);
             }
 
-            // 3. Optional: Close when clicking outside the modal content
+            // Close when clicking outside modal content
             window.addEventListener('click', (e) => {
                 if (e.target === modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('flex');
-                    document.body.style.overflow = 'auto';
+                    closeModal();
                 }
             });
 
@@ -1102,7 +1153,6 @@
 
                 switch (currentStep) {
                     case 1:
-
                         break;
 
                     case 2:
@@ -1122,7 +1172,7 @@
                         const tagId = selectElem.value || 1;
                         const quantity = document.getElementById('qty_input')?.value || 1000;
                         const username = usernameInput.value || '';
-                        const refCode = (document.getElementById('referral_code_id')?.value || '');
+                        const refCode = (refIdInput?.value || refCodeInput?.value || sessionStorage.getItem('boosters_ref_id') || '');
 
                         const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
                         this.disabled = true;
@@ -1153,10 +1203,8 @@
 
                             if (response.ok) {
                                 setTimeout(() => {
-                                    // currentStep = 5;
                                     updateUI();
-                                    //  updateStep();
-                                }, 3000); // Simulate verification delay
+                                }, 3000);
                             }
                         } catch (error) {
                             alert('Something went wrong. Please try again.');
@@ -1165,7 +1213,6 @@
                         break;
 
                     case 4:
-
                         break;
 
                     default:
@@ -1177,11 +1224,15 @@
             });
 
             // Simple Price Calculator ($0.01 per unit example)
-            document.getElementById('qty_input').addEventListener('input', function() {
-                let price = Math.max(50, this.value * 0.01).toFixed(2);
-                document.getElementById('calc_price').innerText = price;
-                document.querySelectorAll('.final_price').forEach(el => el.innerText = price);
-            });
+            const qtyInputElem = document.getElementById('qty_input');
+            if (qtyInputElem) {
+                qtyInputElem.addEventListener('input', function() {
+                    let price = Math.max(50, this.value * 0.01).toFixed(2);
+                    const calcPrice = document.getElementById('calc_price');
+                    if (calcPrice) calcPrice.innerText = price;
+                    document.querySelectorAll('.final_price').forEach(el => el.innerText = price);
+                });
+            }
 
             prevBtn.addEventListener('click', () => {
                 if (currentStep > 1) {
@@ -1190,22 +1241,90 @@
                 }
             });
 
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. Look at the URL (e.g., ?ref_id=MARK99)
+            // Gracious URL Query Parameter Handling
             const urlParams = new URLSearchParams(window.location.search);
 
-            // 2. Get the specific value of 'ref_id'
-            const refCode = urlParams.get('ref_id');
-
-            // 3. If it exists, put it in the hidden form input
-            if (refCode) {
-                document.getElementById('referral_code_id').value = refCode;
-                console.log("Referral Code Captured: " + refCode);
+            // 1. Capture referral code / ref_id from URL or session
+            const refParam = urlParams.get('ref_id') || urlParams.get('ref') || urlParams.get('referral_code_id') || urlParams.get('refId');
+            if (refParam) {
+                sessionStorage.setItem('boosters_ref_id', refParam);
             }
+            const activeRefId = refParam || sessionStorage.getItem('boosters_ref_id') || '';
+
+            if (activeRefId) {
+                if (refCodeInput) refCodeInput.value = activeRefId;
+                if (refIdInput) refIdInput.value = activeRefId;
+                if (refBadge && refVal) {
+                    refVal.innerText = activeRefId;
+                    refBadge.classList.remove('hidden');
+                }
+            }
+
+            // 2. Pre-populate optional quantity and username parameters
+            const qtyParam = urlParams.get('quantity');
+            const usernameParam = urlParams.get('username');
+
+            if (qtyParam && qtyInputElem) {
+                qtyInputElem.value = qtyParam;
+                qtyInputElem.dispatchEvent(new Event('input'));
+            }
+
+            if (usernameParam) {
+                const uInput = document.querySelector('input[name="username"]');
+                if (uInput) uInput.value = usernameParam;
+            }
+
+            // 3. Match platform & service graciously
+            const platformParam = (urlParams.get('platform') || '').toLowerCase().trim();
+            const serviceParam = (urlParams.get('service') || '').trim();
+            const slugParam = (urlParams.get('slug') || '').toLowerCase().trim();
+
+            if (platformParam || serviceParam || slugParam) {
+                const normPlatform = platformParam === 'x' ? 'twitter' : platformParam;
+                const allButtons = Array.from(document.querySelectorAll('.btn-open-modal'));
+                let matchedBtn = null;
+
+                // Priority 1: Match by slug or service against data-slug
+                if (slugParam || serviceParam) {
+                    matchedBtn = allButtons.find(b => {
+                        const bSlug = (b.dataset.slug || '').toLowerCase();
+                        return bSlug === slugParam || bSlug === serviceParam.toLowerCase();
+                    });
+                }
+
+                // Priority 2: Match by platform & service name
+                if (!matchedBtn && normPlatform && serviceParam) {
+                    matchedBtn = allButtons.find(b => {
+                        const bPlat = (b.dataset.platform || '').toLowerCase();
+                        const bServ = (b.dataset.service || b.dataset.name || '').toLowerCase();
+                        return bPlat === normPlatform && bServ === serviceParam.toLowerCase();
+                    });
+                }
+
+                // Priority 3: Match by platform alone
+                if (!matchedBtn && normPlatform) {
+                    matchedBtn = allButtons.find(b => (b.dataset.platform || '').toLowerCase() === normPlatform);
+                }
+
+                if (matchedBtn) {
+                    const card = matchedBtn.closest('.feature-card');
+                    if (card) {
+                        card.classList.add('highlighted-card');
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
+                    setTimeout(() => {
+                        const p = matchedBtn.dataset.platform || normPlatform;
+                        const s = matchedBtn.dataset.slug || slugParam || serviceParam;
+                        const n = matchedBtn.dataset.service || matchedBtn.dataset.name || serviceParam;
+                        openModal(p, s, n);
+                    }, 650);
+                } else {
+                    // If no card matched on page, still auto-open modal with dropdown matching
+                    openModal(normPlatform, slugParam || serviceParam, serviceParam);
+                }
+            }
+
         });
     </script>
 

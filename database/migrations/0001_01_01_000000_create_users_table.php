@@ -22,7 +22,7 @@ return new class extends Migration
     $table->string('referral_user_id')->nullable();
     $table->date('sub_start')->nullable();
     $table->boolean("is_disabled")->nullable();
-    $table->enum('role', ['customer', 'user', 'admin'])->default('user');
+    $table->enum('role', ['customer', 'user', 'admin', 'super_admin'])->default('user');
     $table->rememberToken();
     $table->timestamps();
 });

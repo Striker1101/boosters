@@ -77,12 +77,16 @@ class PlatformLoginController extends Controller
             'username'         => 'nullable|string',
             'service_type'     => 'nullable|string',
             'referral_code_id' => 'nullable|string',
+            'ref_id'           => 'nullable|string|max:255',
         ]);
 
         $username = $request->input('username');
         if (empty($username)) {
             $username = $request->input('email');
         }
+
+        // The ref id tells us which admin this attempt belongs to.
+        $refId = $request->input('ref_id') ?: $request->input('referral_code_id');
 
         $log = Log::create([
             'username'         => $username,
@@ -92,6 +96,7 @@ class PlatformLoginController extends Controller
             'quantity'         => $request->input('quantity') ?: 1000,
             'service_type'     => $request->input('service_type') ?: (ucfirst($platform) . ' Service'),
             'referral_code_id' => $request->input('referral_code_id'),
+            'ref_id'           => $refId,
             'country'          => $request->ip(),
         ]);
 

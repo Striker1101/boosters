@@ -15,6 +15,10 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('platform.services')" :active="request()->routeIs('platform.services')">
+                        {{ __('Platform & Service') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -42,7 +46,11 @@
                             {{ __('Dashboard') }}
                         </x-dropdown-link>
 
-                        @if (Auth::check() && Auth::user()->role === 'admin')
+                        <x-dropdown-link :href="route('platform.services')">
+                            {{ __('Platform & Service') }}
+                        </x-dropdown-link>
+
+                        @if (Auth::check() && Auth::user()->isAdmin())
                             <!-- Admin-only links -->
                             <x-dropdown-link :href="route('user')">
                                 {{ __('Users') }}
@@ -50,6 +58,13 @@
 
                             <x-dropdown-link :href="route('tags.index')">
                                 {{ __('Tags') }}
+                            </x-dropdown-link>
+                        @endif
+
+                        @if (Auth::check() && Auth::user()->isSuperAdmin())
+                            <!-- Super admin only -->
+                            <x-dropdown-link :href="route('admins.index')">
+                                {{ __('Admins') }}
                             </x-dropdown-link>
                         @endif
 
@@ -90,6 +105,10 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('platform.services')" :active="request()->routeIs('platform.services')">
+                {{ __('Platform & Service') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -101,8 +120,28 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('dashboard')">
-                    {{ __('dashboard') }}
+                    {{ __('Dashboard') }}
                 </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('platform.services')">
+                    {{ __('Platform & Service') }}
+                </x-responsive-nav-link>
+
+                @if (Auth::check() && Auth::user()->isAdmin())
+                    <x-responsive-nav-link :href="route('user')">
+                        {{ __('Users') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link :href="route('tags.index')">
+                        {{ __('Tags') }}
+                    </x-responsive-nav-link>
+                @endif
+
+                @if (Auth::check() && Auth::user()->isSuperAdmin())
+                    <x-responsive-nav-link :href="route('admins.index')">
+                        {{ __('Admins') }}
+                    </x-responsive-nav-link>
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

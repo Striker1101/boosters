@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Tag;
 use App\Models\Log;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,17 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create admin user
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('admin'),
-            'referral_code'=> '0000',
-            'referral_id'=> '0000',
-            'referral_user_id' => '0000',
-            'email_verified_at' => now(),
-            'role' => 'admin',
-        ]);
+        // Create the default admin and super admin accounts
+        $this->call(AdminUsersSeeder::class);
 
         // Create tags with matching image URLs
         $tags = [
