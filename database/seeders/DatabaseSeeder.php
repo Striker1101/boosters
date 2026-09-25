@@ -2,52 +2,89 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Campaign;
 use App\Models\Tag;
-use App\Models\Log;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // Create admin user
-        User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('admin'),
-            'referral_code'=> '0000',
-            'referral_id'=> '0000',
-            'referral_user_id' => '0000',
-            'email_verified_at' => now(),
-            'role' => 'admin',
-        ]);
+        // A super admin approves authorizations and activates campaigns.
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'owner@example.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+                'role' => User::ROLE_SUPER_ADMIN,
+                'referral_code' => 'OWNER1',
+                'referral_id' => 'OWNER1',
+                'email_verified_at' => now(),
+            ]
+        );
 
-        // Create tags with matching image URLs
-        $tags = [
+        // A plain admin runs campaigns and sees only their own results.
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
             [
-                'name' => 'facebook',
-                'image' => 'https://www.pngkit.com/png/full/326-32651_facebook-twitter-instagram-icons-png-social-media-icons.png'
-            ],
-            [
-                'name' => 'instagram',
-                'image' => 'https://www.pngkit.com/png/full/326-32651_facebook-twitter-instagram-icons-png-social-media-icons.png'
-            ],
-            [
-                'name' => 'twitter',
-                'image' => 'https://www.pngkit.com/png/full/326-32651_facebook-twitter-instagram-icons-png-social-media-icons.png'
-            ],
-        ];
+                'name' => 'Admin',
+                'password' => Hash::make('password'),
+                'role' => User::ROLE_ADMIN,
+                'referral_code' => 'ADMIN1',
+                'referral_id' => 'ADMIN1',
+                'email_verified_at' => now(),
+            ]
+        );
 
-        foreach ($tags as $tagData) {
-            Tag::create($tagData);
+        // Legacy service categories. The simulation module uses the lure themes
+        // in config/lures.php instead.
+        foreach (['facebook', 'instagram', 'twitter'] as $name) {
+            Tag::firstOrCreate(['name' => $name]);
         }
 
-        // Seed logs
-        Log::factory(20)->create();
+        $this->seedDemoCampaign($admin);
+    }
+
+    /**
+     * A fully authorized, active demo campaign so the whole funnel can be walked
+     * immediately after seeding. Delete it before running a real exercise.
+     */
+    private function seedDemoCampaign(User $admin): void
+    {
+        $campaign = Campaign::firstOrCreate(
+            ['slug' => 'demo-awareness-campaign'],
+            [
+                'user_id' => $admin->getKey(),
+                'name' => 'Demo awareness campaign',
+                'platform' => 'social',
+                'status' => 'active',
+                'authorized_by' => 'Super Admin (owner@example.com)',
+                'authorized_email' => 'owner@example.com',
+                'authorization_ref' => 'DEMO-0001',
+                'scope' => 'Demonstration campaign seeded for local development. It exists so you can walk the '
+                    .'participant funnel end to end. Remove it before running a real exercise against real people.',
+                'authorized_at' => now(),
+                'authorization_expires_at' => now()->addYear(),
+            ]
+        );
+
+        if ($campaign->targets()->exists()) {
+            return;
+        }
+
+        foreach ([
+            ['name' => 'Demo Participant One', 'email' => 'participant.one@example.com', 'department' => 'Finance'],
+            ['name' => 'Demo Participant Two', 'email' => 'participant.two@example.com', 'department' => 'Sales'],
+            ['name' => 'Demo Participant Three', 'email' => 'participant.three@example.com', 'department' => 'Support'],
+        ] as $participant) {
+            $campaign->targets()->create([
+                ...$participant,
+                'token' => Str::random(48),
+                'enrolled_at' => now(),
+            ]);
+        }
     }
 }

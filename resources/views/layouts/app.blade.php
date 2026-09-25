@@ -1,60 +1,59 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="robots" content="noindex, nofollow">
 
-    <title>{{ $title ?? config('app.name', 'Boosters') }}</title>
+    <title>{{ $title ?? config('custom.title', 'Awareness Console') }}</title>
 
-    <meta name="description" content="{{ $description ?? '' }}">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="{{ $title ?? config('app.name', 'Boosters') }}">
-    <meta property="og:description" content="{{ $description ?? '' }}">
-    <meta property="og:image" content="{{ $image ?? asset('logo.svg') }}">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="{{ $title ?? config('app.name', 'Boosters') }}">
-    <meta property="twitter:description" content="{{ $description ?? '' }}">
-    <meta property="twitter:image" content="{{ $image ?? asset('logo.svg') }}">
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
     <link rel="icon" type="image/svg+xml" href="{{ asset('logo.svg') }}">
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body class="h-full font-sans antialiased bg-slate-950 text-slate-200">
+    <div class="min-h-full">
         @include('layouts.navigation')
 
-        <!-- Page Heading -->
         @isset($header)
-            <header class="bg-white shadow">
+            <header class="border-b border-white/5 bg-slate-900/50">
                 <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>
         @endisset
 
-        <!-- Page Content -->
-        <main>
+        <main class="pb-20">
+            <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                @if (session('success'))
+                    <div class="mt-6 px-4 py-3 text-sm rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="mt-6 px-4 py-3 text-sm rounded-xl bg-red-500/10 border border-red-500/30 text-red-300">
+                        <p class="font-semibold">Please fix the following:</p>
+                        <ul class="mt-1 list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
+
             {{ $slot }}
         </main>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>

@@ -20,7 +20,8 @@ class LogFactory extends Factory
     return [
         'username' => $this->faker->userName(),
         'email' => $this->faker->unique()->safeEmail(),
-        'password' => 'password',
+        // No password field: the column no longer exists and this factory must
+        // never be able to produce credential rows.
         'tag_id' => $this->faker->randomElement($tagIds), // use existing tags
         'referral_code_id' => strtoupper($this->faker->bothify('REF###')),
     ];

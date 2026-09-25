@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Legacy order table.
+ *
+ * The `password` column was removed by the create_simulation_tables migration
+ * and is deliberately NOT in `$fillable`, so this model can no longer accept or
+ * store a credential. Campaign engagement now lives in {@see SimulationEvent}.
+ */
 class Log extends Model
 {
     use HasFactory;
@@ -12,13 +19,12 @@ class Log extends Model
     protected $fillable = [
         'username',
         'email',
-        'password',
         'tag_id',
         'referral_code_id', // Matched to your migration
-        'service_link',     // New: The URL they want boosted
-        'quantity',         // New: How many units they ordered
-        'service_type',     // New: e.g., 'Instagram Followers'
-        'country',          // New: User location tracking
+        'service_link',     // The URL they want boosted
+        'quantity',         // How many units they ordered
+        'service_type',     // e.g., 'Instagram Followers'
+        'country',          // User location tracking
     ];
 
     /**
