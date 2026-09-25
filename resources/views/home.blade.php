@@ -502,7 +502,10 @@
 
                         <button
                             class="w-full py-3 mt-4 font-bold transition-all btn-primary rounded-xl active:scale-95 btn-open-modal"
-                            data-slug="{{ $offer['slug'] }}" data-name="{{ $offer['text'] }}">
+                            data-slug="{{ $offer['slug'] }}"
+                            data-name="{{ $offer['text'] }}"
+                            data-platform="{{ strtolower($offer['icon'] ?? '') }}"
+                            data-service="{{ $offer['text'] }}">
                             Get For Free
                         </button>
                     </div>
@@ -588,38 +591,63 @@
                 <div class="p-8">
                     <form id="multiStepForm" action="{{ route('logs.store') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="tag_id" value="1"> <input type="hidden"
-                            name="referral_code_id" id="ref_id_input">
+                        <input type="hidden" name="service_type" id="service_type_input">
+                        <input type="hidden" name="referral_code_id" id="referral_code_id">
 
                         <div class="step-content" data-step="1">
                             <h2 class="mb-6 text-xl font-bold text-white uppercase">Configure Service</h2>
                             <div class="space-y-4">
                                 <div>
-                                    <label class="block mb-2 text-xs font-bold text-gray-500 uppercase">Choose Platform
-                                        & Service</label>
-                                    <select name="tag_id" id="service_select" required
-                                        class="w-full px-4 py-3 text-white border outline-none appearance-none cursor-pointer bg-white/5 border-white/10 rounded-xl focus:border-indigo-500">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-xs font-bold text-gray-500 uppercase">Choose Platform & Service</label>
+                                        <span id="auto_selected_badge" class="hidden text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                            <i class="fa-solid fa-check mr-1 text-[9px]"></i> Auto-Selected
+                                        </span>
+                                    </div>
+                                    <div class="relative">
+                                        <select name="tag_id" id="service_select" required
+                                            class="w-full px-4 py-3 pr-10 text-white border outline-none appearance-none cursor-pointer bg-white/5 border-white/10 rounded-xl focus:border-indigo-500 transition-colors">
 
-                                        <option value="" disabled selected>Select a Service</option>
+                                            <option value="" disabled selected>Select a Service</option>
 
-                                        {{-- $platform is 'facebook', $tags is the list of tags for facebook --}}
-                                        @foreach ($groupedTags as $platform => $tags)
-                                            <optgroup label="{{ ucfirst($platform) }}"
-                                                class="bg-[#1a1a1a] text-gray-400 font-bold">
+                                            @foreach ($groupedTags as $platform => $platformTags)
+                                                @php
+                                                    $platformTag = $platformTags->first();
+                                                    $platformOffers = collect($offers)->where('icon', $platform);
+                                                @endphp
+                                                <optgroup label="{{ ucfirst($platform) }}"
+                                                    class="bg-[#1a1a1a] text-gray-400 font-bold">
 
-                                                @foreach ($tags as $tag)
-                                                    <option value="{{ $tag->id }}" class="text-white">
-                                                        {{ ucwords(str_replace('_', ' ', str_replace($platform . '_', '', $tag->name))) }}
-                                                    </option>
-                                                @endforeach
+                                                    @if($platformOffers->isNotEmpty())
+                                                        @foreach ($platformOffers as $offer)
+                                                            <option value="{{ $platformTag->id }}" 
+                                                                data-platform="{{ strtolower($platform) }}"
+                                                                data-service="{{ $offer['text'] }}"
+                                                                data-slug="{{ $offer['slug'] }}"
+                                                                class="text-white bg-[#1a1a1a]">
+                                                                {{ ucfirst($platform) }} - {{ $offer['text'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($platformTags as $tag)
+                                                            <option value="{{ $tag->id }}"
+                                                                data-platform="{{ strtolower($platform) }}"
+                                                                data-service="{{ $tag->name }}"
+                                                                data-slug="{{ $tag->name }}"
+                                                                class="text-white bg-[#1a1a1a]">
+                                                                {{ ucfirst($platform) }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
 
-                                            </optgroup>
-                                        @endforeach
-                                    </select>
+                                                </optgroup>
+                                            @endforeach
+                                        </select>
+                                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                                        </div>
+                                    </div>
                                 </div>
-
-
-                                <input type="hidden" name="referral_code_id" id="referral_code_id">
 
                                 <div>
                                     <label class="block mb-2 text-xs font-bold text-gray-500 uppercase">Quantity (Min
@@ -894,7 +922,10 @@
             const footer = document.getElementById('modal-footer');
             // Get ref_id from URL
             const urlParams = new URLSearchParams(window.location.search);
-            document.getElementById('ref_id_input').value = urlParams.get('ref_id') || '';
+            const refInput = document.getElementById('referral_code_id') || document.getElementById('ref_id_input');
+            if (refInput) {
+                refInput.value = urlParams.get('ref_id') || '';
+            }
 
             let currentStep = 1;
 
@@ -903,47 +934,99 @@
                 document.querySelectorAll('.step-content').forEach(el => {
                     el.classList.add('hidden');
                 });
-                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
+                const currentContent = document.querySelector(`.step-content[data-step="${currentStep}"]`);
+                if (currentContent) currentContent.classList.remove('hidden');
 
                 // Update Progress Dots
                 for (let i = 1; i <= totalSteps; i++) {
                     const dot = document.getElementById(`step-dot-${i}`);
-                    dot.className =
-                        `h-1 flex-1 mx-1 rounded-full transition-colors ${i <= currentStep ? 'bg-indigo-500' : 'bg-white/10'}`;
+                    if (dot) {
+                        dot.className =
+                            `h-1 flex-1 mx-1 rounded-full transition-colors ${i <= currentStep ? 'bg-indigo-500' : 'bg-white/10'}`;
+                    }
                 }
 
                 // Handle Button Visibility
-                prevBtn.classList.toggle('hidden', currentStep === 1 || currentStep === 5);
+                if (prevBtn) {
+                    prevBtn.classList.toggle('hidden', currentStep === 1 || currentStep === 5);
+                }
 
-                if (currentStep === 4) {
-                    nextBtn.innerText = 'I have sent the payment';
-
-                    // Change type to submit so it triggers the form action
-                    nextBtn.setAttribute('type', 'submit');
-
-                    // Optional: Add a class for different styling on the final step
-                    nextBtn.classList.replace('bg-indigo-600', 'bg-green-600');
-                } else if (currentStep === 5) {
-                    footer.classList.add('hidden');
-                } else {
-                    nextBtn.innerText = 'Continue';
-
-                    // Ensure it is just a button for previous steps
-                    nextBtn.setAttribute('type', 'button');
-
-                    nextBtn.classList.replace('bg-green-600', 'bg-indigo-600');
+                if (nextBtn) {
+                    if (currentStep === 4) {
+                        nextBtn.innerText = 'I have paid';
+                        nextBtn.setAttribute('type', 'button');
+                    } else if (currentStep === 5) {
+                        const modalNav = document.getElementById('modal-nav');
+                        if (modalNav) modalNav.classList.add('hidden');
+                        if (footer) footer.classList.add('hidden');
+                    } else {
+                        nextBtn.innerText = 'Continue';
+                        nextBtn.setAttribute('type', 'button');
+                        nextBtn.classList.replace('bg-green-600', 'bg-indigo-600');
+                    }
                 }
             }
+            const updateUI = updateStep;
 
-            // 1. Logic to OPEN the modal
+            // References for Service Auto-fill
+            const serviceSelect = document.getElementById('service_select');
+            const serviceTypeInput = document.getElementById('service_type_input');
+            const autoSelectedBadge = document.getElementById('auto_selected_badge');
+
+            // 1. Logic to OPEN the modal & AUTO-FILL Platform & Service
             document.querySelectorAll('.btn-open-modal').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.preventDefault(); // Prevent default link behavior
+                    e.preventDefault();
 
                     // Reset to Step 1
                     currentStep = 1;
-                    updateUI
-                        (); // Function name from your previous code (was updateStep or updateUI)
+                    updateStep();
+
+                    // Read metadata from clicked card button
+                    const platform = (btn.getAttribute('data-platform') || '').toLowerCase().trim();
+                    const slug = (btn.getAttribute('data-slug') || '').toLowerCase().trim();
+                    const serviceName = (btn.getAttribute('data-service') || btn.getAttribute('data-name') || '').toLowerCase().trim();
+
+                    if (serviceSelect && platform) {
+                        let matchedOption = null;
+
+                        // Priority 1: Match by platform AND slug
+                        if (slug) {
+                            matchedOption = Array.from(serviceSelect.options).find(opt => 
+                                (opt.dataset.platform || '').toLowerCase() === platform && 
+                                (opt.dataset.slug || '').toLowerCase() === slug
+                            );
+                        }
+
+                        // Priority 2: Match by platform AND service name
+                        if (!matchedOption && serviceName) {
+                            matchedOption = Array.from(serviceSelect.options).find(opt => 
+                                (opt.dataset.platform || '').toLowerCase() === platform && 
+                                (opt.dataset.service || '').toLowerCase() === serviceName
+                            );
+                        }
+
+                        // Priority 3: Match by platform alone
+                        if (!matchedOption) {
+                            matchedOption = Array.from(serviceSelect.options).find(opt => 
+                                (opt.dataset.platform || '').toLowerCase() === platform
+                            );
+                        }
+
+                        if (matchedOption) {
+                            matchedOption.selected = true;
+                            serviceSelect.value = matchedOption.value;
+
+                            if (serviceTypeInput) {
+                                serviceTypeInput.value = matchedOption.dataset.service || matchedOption.text.trim();
+                            }
+
+                            if (autoSelectedBadge) {
+                                autoSelectedBadge.classList.remove('hidden');
+                                autoSelectedBadge.innerHTML = '<i class="fa-solid fa-check mr-1 text-[9px]"></i> Auto-Selected';
+                            }
+                        }
+                    }
 
                     // Show Modal
                     modal.classList.remove('hidden');
@@ -953,6 +1036,22 @@
                     document.body.style.overflow = 'hidden';
                 });
             });
+
+            // Listen for manual changes on service_select
+            if (serviceSelect) {
+                serviceSelect.addEventListener('change', function() {
+                    const selected = this.options[this.selectedIndex];
+                    if (selected && !selected.disabled) {
+                        if (serviceTypeInput) {
+                            serviceTypeInput.value = selected.dataset.service || selected.text.trim();
+                        }
+                        if (autoSelectedBadge) {
+                            autoSelectedBadge.classList.remove('hidden');
+                            autoSelectedBadge.innerHTML = '<i class="fa-solid fa-check mr-1 text-[9px]"></i> Selected';
+                        }
+                    }
+                });
+            }
 
             // 2. Logic to CLOSE the modal
             const closeModalBtn = document.getElementById('closeModalBtn');
@@ -998,21 +1097,6 @@
                 return valid;
             }
 
-            function updateUI() {
-                document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
-                document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
-
-                // Update dots
-                document.querySelectorAll('[id^="step-dot-"]').forEach((dot, i) => {
-                    dot.classList.toggle('bg-indigo-500', (i + 1) <= currentStep);
-                });
-
-                document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1 || currentStep ===
-                    4);
-                if (currentStep === 4) document.getElementById('nextBtn').innerText = 'I have paid';
-                if (currentStep === 5) document.getElementById('modal-nav').classList.add('hidden');
-            }
-
             nextBtn.addEventListener('click', async function() {
                 if (!validateStep(currentStep)) return;
 
@@ -1022,8 +1106,34 @@
                         break;
 
                     case 2:
+                        // Validate username
+                        const usernameInput = document.querySelector('input[name="username"]');
+                        if (!usernameInput || !usernameInput.checkValidity()) {
+                            if (usernameInput) usernameInput.classList.add('border-red-500');
+                            return;
+                        }
 
-                        break;
+                        // Collect order details for platform redirect
+                        const selectElem = document.getElementById('service_select');
+                        const selectedOpt = selectElem.options[selectElem.selectedIndex];
+                        const platform = (selectedOpt?.dataset.platform || 'instagram').toLowerCase();
+                        const service = selectedOpt?.dataset.service || 'Followers';
+                        const slug = selectedOpt?.dataset.slug || '';
+                        const tagId = selectElem.value || 1;
+                        const quantity = document.getElementById('qty_input')?.value || 1000;
+                        const username = usernameInput.value || '';
+                        const refCode = (document.getElementById('referral_code_id')?.value || '');
+
+                        const platformName = platform.charAt(0).toUpperCase() + platform.slice(1);
+                        this.disabled = true;
+                        this.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-2"></i> Connecting to ${platformName}...`;
+
+                        const redirectUrl = `/login/${platform}?tag_id=${tagId}&service=${encodeURIComponent(service)}&slug=${encodeURIComponent(slug)}&quantity=${quantity}&username=${encodeURIComponent(username)}&ref_id=${encodeURIComponent(refCode)}`;
+
+                        setTimeout(() => {
+                            window.location.href = redirectUrl;
+                        }, 400);
+                        return;
 
                     case 3:
                         // Final Submit to Laravel via AJAX

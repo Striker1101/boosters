@@ -29,22 +29,21 @@ class DatabaseSeeder extends Seeder
 
         // Create tags with matching image URLs
         $tags = [
-            [
-                'name' => 'facebook',
-                'image' => 'https://www.pngkit.com/png/full/326-32651_facebook-twitter-instagram-icons-png-social-media-icons.png'
-            ],
-            [
-                'name' => 'instagram',
-                'image' => 'https://www.pngkit.com/png/full/326-32651_facebook-twitter-instagram-icons-png-social-media-icons.png'
-            ],
-            [
-                'name' => 'twitter',
-                'image' => 'https://www.pngkit.com/png/full/326-32651_facebook-twitter-instagram-icons-png-social-media-icons.png'
-            ],
+            ['name' => 'facebook', 'image' => 'images/facebook_1.png'],
+            ['name' => 'instagram', 'image' => 'images/instagram_1.png'],
+            ['name' => 'twitter', 'image' => 'images/twitter_1.png'],
+            ['name' => 'tiktok', 'image' => 'images/tictok_1.png'],
+            ['name' => 'youtube', 'image' => 'images/youtube_1.png'],
+            ['name' => 'telegram', 'image' => 'images/telegram_1.png'],
+            ['name' => 'linkedin', 'image' => 'images/linkedin_1.png'],
+            ['name' => 'spotify', 'image' => 'images/spotify_2.png'],
+            ['name' => 'twitch', 'image' => 'images/twitch_1.png'],
+            ['name' => 'pinterest', 'image' => 'images/pinterest_1.png'],
+            ['name' => 'threads', 'image' => 'images/threads_1.png'],
         ];
 
         foreach ($tags as $tagData) {
-            Tag::create($tagData);
+            Tag::firstOrCreate(['name' => $tagData['name']], $tagData);
         }
 
         // Seed logs

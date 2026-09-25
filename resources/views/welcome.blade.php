@@ -1,826 +1,642 @@
 <x-guest-layout>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <!-- Background Ambient Glows & Grid -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-indigo-600/20 via-purple-600/15 to-pink-500/10 rounded-full blur-[140px]"></div>
+        <div class="absolute top-[40%] -left-32 w-96 h-96 bg-indigo-600/15 rounded-full blur-[120px]"></div>
+        <div class="absolute top-[60%] -right-32 w-96 h-96 bg-pink-600/15 rounded-full blur-[120px]"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- HERO SECTION                                                              -->
+    <!-- ========================================================================= -->
+    <section class="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto space-y-8">
+
+                <!-- Trust Pill Badge -->
+                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-indigo-500/5 hover:border-indigo-500/30 transition-all cursor-default">
+                    <span class="flex h-2 w-2 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-xs sm:text-sm font-semibold text-gray-200">
+                        ⚡ #1 Rated Social Media Growth Platform • Over 2.4M+ Orders Fulfilled
+                    </span>
+                </div>
+
+                <!-- Main Hero Headline -->
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.1]">
+                    Supercharge Your <br class="hidden sm:inline">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">
+                        Social Media Growth
+                    </span>
+                </h1>
+
+                <!-- Hero Subtitle -->
+                <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                    Gain authentic followers, high-retention views, likes, and genuine engagement across all major platforms. Instant automated start with <span class="text-white font-semibold underline decoration-indigo-400 decoration-2 underline-offset-4">zero password required</span>.
+                </p>
+
+                <!-- Dual Action CTAs -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                    <a href="{{ route('home') }}"
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-base font-bold text-white transition-all duration-200 rounded-2xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:scale-[1.02] active:scale-[0.98]">
+                        <span>Explore Services & Pricing</span>
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
+
+                    <a href="#how-it-works"
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 text-base font-semibold text-gray-300 transition-all duration-200 rounded-2xl bg-white/5 border border-white/10 hover:text-white hover:bg-white/10 hover:border-white/20">
+                        <i class="fa-regular fa-circle-play text-indigo-400"></i>
+                        <span>See How It Works</span>
+                    </a>
+                </div>
+
+                <!-- Trust Strip -->
+                <div class="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs sm:text-sm text-gray-400">
+                    <div class="flex items-center gap-2">
+                        <div class="flex text-amber-400 text-xs">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <span class="text-gray-200 font-medium">4.9/5 from 18,500+ reviews</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                        <span class="text-gray-200 font-medium">100% Safe & Compliant</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bolt text-amber-400"></i>
+                        <span class="text-gray-200 font-medium">Instant Start (< 60s)</span>
+                    </div>
+                </div>
+
+                <!-- Floating Supported Platform Cards Carousel -->
+                <div class="pt-8">
+                    <p class="text-xs uppercase font-bold tracking-widest text-gray-400 mb-6">Supported Platforms</p>
+                    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                        <a href="{{ route('home') }}" class="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-pink-500/50 hover:bg-pink-500/10 transition-all">
+                            <img src="{{ asset('images/instagram_1.png') }}" alt="Instagram" class="w-6 h-6 object-contain group-hover:scale-110 transition-transform">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white">Instagram</span>
+                        </a>
+
+                        <a href="{{ route('home') }}" class="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 transition-all">
+                            <img src="{{ asset('images/tictok_1.png') }}" alt="TikTok" class="w-6 h-6 object-contain group-hover:scale-110 transition-transform">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white">TikTok</span>
+                        </a>
+
+                        <a href="{{ route('home') }}" class="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 transition-all">
+                            <img src="{{ asset('images/youtube_1.png') }}" alt="YouTube" class="w-6 h-6 object-contain group-hover:scale-110 transition-transform">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white">YouTube</span>
+                        </a>
+
+                        <a href="{{ route('home') }}" class="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 hover:bg-blue-500/10 transition-all">
+                            <img src="{{ asset('images/facebook_1.png') }}" alt="Facebook" class="w-6 h-6 object-contain group-hover:scale-110 transition-transform">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white">Facebook</span>
+                        </a>
+
+                        <a href="{{ route('home') }}" class="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-gray-400/50 hover:bg-white/10 transition-all">
+                            <img src="{{ asset('images/twitter_1.png') }}" alt="X / Twitter" class="w-6 h-6 object-contain group-hover:scale-110 transition-transform">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white">Twitter (X)</span>
+                        </a>
+
+                        <a href="{{ route('home') }}" class="group flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all">
+                            <img src="{{ asset('images/spotify_2.png') }}" alt="Spotify" class="w-6 h-6 object-contain group-hover:scale-110 transition-transform">
+                            <span class="text-xs sm:text-sm font-semibold text-gray-200 group-hover:text-white">Spotify</span>
+                        </a>
+                    </div>
+                </div>
 
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --accent: #f59e0b;
-            --bg-dark: #0a0a0a;
-            --bg-card: #1a1a1a;
-            --text-light: #ffffff;
-            --text-gray: #9ca3af;
-        }
-
-        body {
-            font-family: 'Instrument Sans', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: var(--text-light);
-            overflow-x: hidden;
-        }
-
-        /* Animated background particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0) translateX(0);
-                opacity: 0.3;
-            }
-
-            50% {
-                transform: translateY(-100px) translateX(50px);
-                opacity: 0.6;
-            }
-        }
-
-        /* Header */
-        header {
-            position: relative;
-            z-index: 10;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-icon {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            border: none;
-            font-size: 0.95rem;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: var(--text-light);
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            z-index: 5;
-            max-width: 1400px;
-            margin: 4rem auto 0;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 3s ease infinite;
-            background-size: 200% 200%;
-        }
-
-        @keyframes gradientShift {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero p {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            color: var(--text-gray);
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            line-height: 1.6;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        .btn-large {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            border-radius: 0.75rem;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-light);
-            border: 2px solid var(--secondary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
-        }
-
-        /* Stats Section */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 5rem auto;
-            padding: 0 2rem;
-            animation: fadeInUp 1s ease-out 0.6s both;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
-        }
-
-        .stat-number {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-gray);
-            font-size: 1rem;
-        }
-
-        /* Features Section */
-        .features {
-            max-width: 1200px;
-            margin: 6rem auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 3rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            padding: 2.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .feature-card:hover::before {
-            opacity: 0.1;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .feature-card p {
-            color: var(--text-gray);
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Social Icons */
-        .social-platforms {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 4rem auto;
-            flex-wrap: wrap;
-            padding: 0 2rem;
-        }
-
-        .platform-icon {
-            width: 80px;
-            height: 80px;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        .platform-icon:nth-child(1) {
-            animation-delay: 0s;
-        }
-
-        .platform-icon:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        .platform-icon:nth-child(3) {
-            animation-delay: 1s;
-        }
-
-        .platform-icon:nth-child(4) {
-            animation-delay: 1.5s;
-        }
-
-        .platform-icon:nth-child(5) {
-            animation-delay: 2s;
-        }
-
-        .platform-icon:hover {
-            transform: translateY(-10px) scale(1.1);
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        /* CTA Section */
-        .cta-section {
-            max-width: 800px;
-            margin: 6rem auto;
-            padding: 4rem 2rem;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-            border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .cta-section h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 1.5rem;
-        }
-
-        .cta-section p {
-            font-size: 1.2rem;
-            color: var(--text-gray);
-            margin-bottom: 2rem;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-gray);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 4rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .nav-buttons {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn-large {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
-
-    <body>
-        <!-- Animated Background -->
-        <div class="particles" id="particles"></div>
-
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>
-                Supercharge Your<br>
-                <span class="gradient-text">Social Media Growth</span>
-            </h1>
-            <p>
-                {{ config('custom.title') }} your followers, engagement, and reach across all major platforms.
-                Authentic growth powered by advanced targeting and real users.
-            </p>
-            <div class="cta-buttons">
-                <a href="{{ route('login') }}" class="btn btn-primary btn-large">Start Boosting Now</a>
-                <a href="{{ route('home') }}" class="btn btn-secondary btn-large">See How It Works</a>
-            </div>
-        </section>
-
-        <!-- Stats Section -->
-        <section class="stats">
-            <div class="stat-card">
-                <div class="stat-number">2M+</div>
-                <div class="stat-label">Active Users</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">500K+</div>
-                <div class="stat-label">Campaigns Delivered</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">98%</div>
-                <div class="stat-label">Satisfaction Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Support Available</div>
-            </div>
-        </section>
-
-        <!-- Social Platforms -->
-        <div class="social-platforms">
-            <!-- Facebook -->
-            <div class="platform-icon">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 0C10.7 0 0 10.7 0 24s10.7 24 24 24 24-10.7 24-24S37.3 0 24 0z" fill="#1877F2" />
-                    <path
-                        d="M33.5 15.4h-4.2c-.5 0-.9.4-.9.9v3.1h5.1l-.8 5.3h-4.3v13.2h-5.5V24.7h-3.7v-5.3h3.7v-3.7c0-3.6 2.2-5.6 5.4-5.6h4.2v5.3z"
-                        fill="white" />
-                </svg>
-            </div>
-            <!-- Instagram -->
-            <div class="platform-icon">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#FED373;stop-opacity:1" />
-                            <stop offset="25%" style="stop-color:#F15245;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#D92E7F;stop-opacity:1" />
-                            <stop offset="75%" style="stop-color:#9B36B7;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#515ECF;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <rect width="48" height="48" rx="12" fill="url(#ig-gradient)" />
-                    <rect x="12" y="12" width="24" height="24" rx="5" stroke="white" stroke-width="3"
-                        fill="none" />
-                    <circle cx="24" cy="24" r="6" stroke="white" stroke-width="3" fill="none" />
-                    <circle cx="32" cy="16" r="2" fill="white" />
-                </svg>
-            </div>
-            <!-- Twitter/X -->
-            <div class="platform-icon">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="12" fill="#000000" />
-                    <path
-                        d="M28.5 14h4.5l-9.8 11.2L35 34h-9l-7-9.2L11 34H6.5l10.5-12L7 14h9.2l6.3 8.3L28.5 14zm-1.6 18h2.5L15.5 16.5h-2.7L26.9 32z"
-                        fill="white" />
-                </svg>
-            </div>
-            <!-- TikTok -->
-            <div class="platform-icon">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="12" fill="#000000" />
-                    <path
-                        d="M32.2 15.3c-1.8-1.2-3-3.3-3-5.6h-4.7v21.6c0 2.6-2.1 4.7-4.7 4.7s-4.7-2.1-4.7-4.7 2.1-4.7 4.7-4.7c.5 0 1 .1 1.4.2v-4.8c-.5-.1-.9-.1-1.4-.1-5.2 0-9.5 4.2-9.5 9.5s4.2 9.5 9.5 9.5 9.5-4.2 9.5-9.5V17.6c1.9 1.4 4.3 2.2 6.9 2.2v-4.7c-1.4 0-2.7-.5-3.9-1.3l-.1.5z"
-                        fill="white" />
-                    <path
-                        d="M32.2 15.3c-1.8-1.2-3-3.3-3-5.6h-4.7v21.6c0 2.6-2.1 4.7-4.7 4.7s-4.7-2.1-4.7-4.7 2.1-4.7 4.7-4.7c.5 0 1 .1 1.4.2v-4.8c-.5-.1-.9-.1-1.4-.1-5.2 0-9.5 4.2-9.5 9.5s4.2 9.5 9.5 9.5 9.5-4.2 9.5-9.5V17.6c1.9 1.4 4.3 2.2 6.9 2.2v-4.7c-1.4 0-2.7-.5-3.9-1.3l-.1.5z"
-                        fill="#EE1D52" opacity="0.9" />
-                    <path
-                        d="M32.2 15.3c-1.8-1.2-3-3.3-3-5.6h-4.7v21.6c0 2.6-2.1 4.7-4.7 4.7s-4.7-2.1-4.7-4.7 2.1-4.7 4.7-4.7c.5 0 1 .1 1.4.2v-4.8c-.5-.1-.9-.1-1.4-.1-5.2 0-9.5 4.2-9.5 9.5s4.2 9.5 9.5 9.5 9.5-4.2 9.5-9.5V17.6c1.9 1.4 4.3 2.2 6.9 2.2v-4.7c-1.4 0-2.7-.5-3.9-1.3l-.1.5z"
-                        fill="#69C9D0" opacity="0.8" />
-                </svg>
-            </div>
-            <!-- YouTube -->
-            <div class="platform-icon">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="48" height="48" rx="12" fill="#FF0000" />
-                    <path
-                        d="M38.3 17.4c-.3-1.2-1.2-2.1-2.4-2.4C33.8 14.5 24 14.5 24 14.5s-9.8 0-11.9.5c-1.2.3-2.1 1.2-2.4 2.4-.5 2.1-.5 6.6-.5 6.6s0 4.5.5 6.6c.3 1.2 1.2 2.1 2.4 2.4 2.1.5 11.9.5 11.9.5s9.8 0 11.9-.5c1.2-.3 2.1-1.2 2.4-2.4.5-2.1.5-6.6.5-6.6s0-4.5-.5-6.6z"
-                        fill="white" />
-                    <path d="M21.5 28.5V19.5l8 4.5-8 4.5z" fill="#FF0000" />
-                </svg>
             </div>
         </div>
+    </section>
 
-        <!-- Features Section -->
-        <section class="features">
-            <h2 class="section-title">Why Choose {{ config('custom.title') }}?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" fill="url(#feature1-gradient)"
-                            opacity="0.2" />
-                        <path d="M30 10L40 25H20L30 10Z" fill="url(#feature1-gradient)" />
-                        <rect x="20" y="25" width="20" height="20" rx="2"
-                            fill="url(#feature1-gradient)" />
-                        <circle cx="30" cy="35" r="5" fill="white" />
-                        <defs>
-                            <linearGradient id="feature1-gradient" x1="10" y1="10" x2="50"
-                                y2="50" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#6366f1" />
-                                <stop offset="1" stop-color="#ec4899" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <h3>Real Growth</h3>
-                    <p>Get genuine followers and engagement from real users interested in your content. No bots, no fake
-                        accounts.</p>
-                </div>
+    <!-- ========================================================================= -->
+    <!-- METRICS / STATS STRIP                                                     -->
+    <!-- ========================================================================= -->
+    <section class="relative py-12 border-y border-white/5 bg-white/[0.02]">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
 
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" fill="url(#feature2-gradient)"
-                            opacity="0.2" />
-                        <path d="M20 25L30 15L40 25M30 15V45" stroke="url(#feature2-gradient)" stroke-width="4"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <defs>
-                            <linearGradient id="feature2-gradient" x1="10" y1="10" x2="50"
-                                y2="50" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#ec4899" />
-                                <stop offset="1" stop-color="#f59e0b" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <h3>Fast Results</h3>
-                    <p>See visible growth within 24-48 hours. Our advanced algorithms ensure quick and efficient
-                        campaign
-                        delivery.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" fill="url(#feature3-gradient)"
-                            opacity="0.2" />
-                        <path d="M15 30L25 40L45 20" stroke="url(#feature3-gradient)" stroke-width="4"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <defs>
-                            <linearGradient id="feature3-gradient" x1="10" y1="10" x2="50"
-                                y2="50" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#f59e0b" />
-                                <stop offset="1" stop-color="#6366f1" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <h3>Safe & Secure</h3>
-                    <p>100% compliant with platform guidelines. Your account security is our top priority with encrypted
-                        data protection.</p>
-                </div>
-
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" fill="url(#feature4-gradient)"
-                            opacity="0.2" />
-                        <circle cx="30" cy="25" r="8" stroke="url(#feature4-gradient)"
-                            stroke-width="3" fill="none" />
-                        <path d="M18 45C18 38 23 33 30 33C37 33 42 38 42 45" stroke="url(#feature4-gradient)"
-                            stroke-width="3" stroke-linecap="round" />
-                        <defs>
-                            <linearGradient id="feature4-gradient" x1="10" y1="10" x2="50"
-                                y2="50" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#6366f1" />
-                                <stop offset="1" stop-color="#ec4899" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <h3>Target Audience</h3>
-                    <p>Reach the right people with precise demographic and interest-based targeting across all
-                        platforms.
+                <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/10 text-center space-y-1 hover:border-indigo-500/40 transition-colors">
+                    <p class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                        2.4M+
+                    </p>
+                    <p class="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                        Orders Delivered
                     </p>
                 </div>
 
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" fill="url(#feature5-gradient)"
-                            opacity="0.2" />
-                        <rect x="15" y="20" width="30" height="20" rx="3"
-                            stroke="url(#feature5-gradient)" stroke-width="3" fill="none" />
-                        <path d="M15 27H45M21 20V40M39 20V40" stroke="url(#feature5-gradient)" stroke-width="3" />
-                        <defs>
-                            <linearGradient id="feature5-gradient" x1="10" y1="10" x2="50"
-                                y2="50" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#ec4899" />
-                                <stop offset="1" stop-color="#f59e0b" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <h3>Analytics Dashboard</h3>
-                    <p>Track your growth in real-time with comprehensive analytics and detailed performance metrics.</p>
+                <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/10 text-center space-y-1 hover:border-pink-500/40 transition-colors">
+                    <p class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-400">
+                        99.8%
+                    </p>
+                    <p class="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                        Satisfaction Rate
+                    </p>
                 </div>
 
-                <div class="feature-card">
-                    <svg class="feature-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" fill="url(#feature6-gradient)"
-                            opacity="0.2" />
-                        <path
-                            d="M25 30L28 33L35 26M30 10C18.95 10 10 18.95 10 30s8.95 20 20 20 20-8.95 20-20S41.05 10 30 10z"
-                            stroke="url(#feature6-gradient)" stroke-width="3" fill="none" />
-                        <defs>
-                            <linearGradient id="feature6-gradient" x1="10" y1="10" x2="50"
-                                y2="50" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#f59e0b" />
-                                <stop offset="1" stop-color="#6366f1" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                    <h3>Money-Back Guarantee</h3>
-                    <p>Not satisfied? Get a full refund within 30 days. We stand behind the quality of our service.</p>
+                <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/10 text-center space-y-1 hover:border-amber-500/40 transition-colors">
+                    <p class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">
+                        &lt; 60s
+                    </p>
+                    <p class="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                        Instant Delivery Start
+                    </p>
                 </div>
+
+                <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/10 text-center space-y-1 hover:border-emerald-500/40 transition-colors">
+                    <p class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                        24/7
+                    </p>
+                    <p class="text-xs sm:text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                        Live Human Support
+                    </p>
+                </div>
+
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <h2>Ready to Go Viral?</h2>
-            <p>Join thousands of influencers and businesses growing their social media presence</p>
-            <a href="#" class="btn btn-primary btn-large">Start Your Free Trial</a>
-        </section>
-{{--
-        <!-- Footer -->
-<footer class="relative z-10 bg-[#0a0a0a] border-t border-white/5 pt-20 pb-10">
-    <div class="px-6 mx-auto max-w-7xl">
-        <div class="grid grid-cols-1 gap-12 mb-16 md:grid-cols-2 lg:grid-cols-4">
-
-            <div class="space-y-6">
-                <div class="flex items-center gap-2 logo">
-                    <img src="{{ asset('logo.svg') }}" alt="logo" class="w-8 h-8">
-                    <span class="text-2xl font-bold tracking-tighter text-white">
-                        {{ config('custom.title') }}
-                    </span>
-                </div>
-                <p class="text-sm leading-relaxed text-gray-400">
-                    {{ config('custom.title') }} is a leading social media shop since 2017.
-                    We offer premium services to quickly boost your followership and enhance your online presence with 24/7 expert support.
+    <!-- ========================================================================= -->
+    <!-- HOW IT WORKS (3 SIMPLE STEPS)                                             -->
+    <!-- ========================================================================= -->
+    <section id="how-it-works" class="py-20 sm:py-28 relative">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Fast & Effortless</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                    How It Works in 3 Simple Steps
+                </h2>
+                <p class="text-base sm:text-lg text-gray-400">
+                    Boost your social media presence without hassle. No technical skills or passwords required.
                 </p>
-                <div class="flex gap-4">
-                    <a href="#" class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="#" class="flex items-center justify-center w-10 h-10 text-white transition-colors rounded-full bg-white/5 hover:bg-indigo-600">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+
+                <!-- Step 1 -->
+                <div class="relative p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-indigo-500/40 transition-all duration-300 group space-y-5">
+                    <div class="flex items-center justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <span class="text-4xl font-black text-white/10 group-hover:text-indigo-500/20 transition-colors">01</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">1. Select Your Service</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Choose your target platform (Instagram, TikTok, YouTube, etc.) and pick the exact boost you need: Followers, Likes, Views, or Comments.
+                    </p>
                 </div>
-            </div>
 
-            <div>
-                <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Company</h4>
-                <ul class="space-y-4 text-sm">
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Our Story</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Why us?</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Career</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Blog</a></li>
-                    <li><a href="#" class="font-semibold text-gray-400 text-indigo-500 transition hover:text-indigo-400">Affiliates & Reseller</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Support</h4>
-                <ul class="space-y-4 text-sm">
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Help Center</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Contact Us</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Track your Order</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">FAQ</a></li>
-                    <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Refund Policy</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="mb-6 text-xs font-bold tracking-widest text-white uppercase">Services</h4>
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Instagram</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">YouTube</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Facebook</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">TikTok</a></li>
-                    </ul>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Spotify</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Twitter (X)</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">LinkedIn</a></li>
-                        <li><a href="#" class="text-gray-400 transition hover:text-indigo-400">Twitch</a></li>
-                    </ul>
+                <!-- Step 2 -->
+                <div class="relative p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-pink-500/40 transition-all duration-300 group space-y-5">
+                    <div class="flex items-center justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 text-2xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                        <span class="text-4xl font-black text-white/10 group-hover:text-pink-500/20 transition-colors">02</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">2. Paste Link & Quantity</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Simply paste your public username or post link and pick your quantity. We never ask for your password or credentials.
+                    </p>
                 </div>
+
+                <!-- Step 3 -->
+                <div class="relative p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-amber-500/40 transition-all duration-300 group space-y-5">
+                    <div class="flex items-center justify-between">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <span class="text-4xl font-black text-white/10 group-hover:text-amber-500/20 transition-colors">03</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">3. Watch Instant Growth</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Sit back as our automated servers immediately start processing your order in seconds. Track delivery in real time with our live dashboard.
+                    </p>
+                </div>
+
             </div>
 
-        </div>
-
-        <div class="flex flex-col items-center justify-between gap-4 pt-10 text-xs text-gray-500 border-t border-white/5 md:flex-row">
-            <p>&copy; {{ date('Y') }} {{ config('custom.title') }}. All rights reserved.</p>
-            <div class="flex gap-6">
-                <a href="#" class="transition hover:text-white">Privacy Policy</a>
-                <a href="#" class="transition hover:text-white">Terms of Service</a>
-                <a href="#" class="transition hover:text-white">Cookies</a>
+            <!-- Jump to catalog CTA -->
+            <div class="text-center mt-12">
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 font-semibold text-sm group">
+                    <span>Browse complete service catalog & pricing</span>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </a>
             </div>
         </div>
-    </div>
-</footer> --}}
+    </section>
 
-        <script>
-            // Create animated particles
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+    <!-- ========================================================================= -->
+    <!-- POPULAR SERVICES SHOWCASE                                                 -->
+    <!-- ========================================================================= -->
+    <section class="py-20 bg-white/[0.01] border-y border-white/5 relative">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-pink-400">Featured Catalog</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                    Popular Services by Platform
+                </h2>
+                <p class="text-base sm:text-lg text-gray-400">
+                    Highest quality followers and engagement at unbeatable wholesale rates.
+                </p>
+            </div>
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particlesContainer.appendChild(particle);
-            }
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            // Add smooth scroll
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
+                <!-- Instagram Card -->
+                <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-pink-500/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/instagram_1.png') }}" alt="Instagram" class="w-10 h-10 object-contain">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">Instagram</h3>
+                                    <span class="text-xs text-pink-400 font-semibold">High Retention</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20">Active</span>
+                        </div>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-pink-500 text-xs"></i> High-Quality Profile Followers</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-pink-500 text-xs"></i> Instant Post & Reel Likes</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-pink-500 text-xs"></i> Viral Reel Views & Impressions</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-pink-500 text-xs"></i> Custom Comments & Story Views</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('home') }}" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-pink-600 hover:text-white hover:border-transparent text-center text-sm font-semibold text-gray-200 transition-all">
+                        Order Instagram Services
+                    </a>
+                </div>
 
-            // Intersection Observer for fade-in animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+                <!-- TikTok Card -->
+                <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/tictok_1.png') }}" alt="TikTok" class="w-10 h-10 object-contain">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">TikTok</h3>
+                                    <span class="text-xs text-cyan-400 font-semibold">Fast Delivery</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-bold text-amber-400 bg-amber-500/10 rounded-full border border-amber-500/20">Trending</span>
+                        </div>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400 text-xs"></i> Video Views (For You Page Push)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400 text-xs"></i> Real Profile Followers</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400 text-xs"></i> Video Likes & Favorites</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400 text-xs"></i> Shares & Saves for Algorithm</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('home') }}" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-cyan-600 hover:text-white hover:border-transparent text-center text-sm font-semibold text-gray-200 transition-all">
+                        Order TikTok Services
+                    </a>
+                </div>
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
+                <!-- YouTube Card -->
+                <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-red-500/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/youtube_1.png') }}" alt="YouTube" class="w-10 h-10 object-contain">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">YouTube</h3>
+                                    <span class="text-xs text-red-400 font-semibold">Monetization Ready</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20">Active</span>
+                        </div>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-500 text-xs"></i> Channel Subscribers (Permanent)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-500 text-xs"></i> High-Retention Watch Time Views</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-500 text-xs"></i> Shorts Views & Likes</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-red-500 text-xs"></i> Video Comments & Shares</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('home') }}" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-red-600 hover:text-white hover:border-transparent text-center text-sm font-semibold text-gray-200 transition-all">
+                        Order YouTube Services
+                    </a>
+                </div>
 
-            document.querySelectorAll('.feature-card, .stat-card').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'all 0.6s ease';
-                observer.observe(el);
-            });
-        </script>
-    </body>
+                <!-- Twitter / X Card -->
+                <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-white/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/twitter_1.png') }}" alt="X / Twitter" class="w-10 h-10 object-contain">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">Twitter (X)</h3>
+                                    <span class="text-xs text-gray-400 font-semibold">Real Profiles</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-bold text-indigo-400 bg-indigo-500/10 rounded-full border border-indigo-500/20">Stable</span>
+                        </div>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gray-300 text-xs"></i> Account Followers</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gray-300 text-xs"></i> Retweets (Reposts) & Likes</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gray-300 text-xs"></i> Impression & Tweet Views</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-gray-300 text-xs"></i> Poll Votes & Bookmarks</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('home') }}" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/20 hover:text-white hover:border-transparent text-center text-sm font-semibold text-gray-200 transition-all">
+                        Order X (Twitter) Services
+                    </a>
+                </div>
 
-    </html>
+                <!-- Facebook Card -->
+                <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-blue-500/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/facebook_1.png') }}" alt="Facebook" class="w-10 h-10 object-contain">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">Facebook</h3>
+                                    <span class="text-xs text-blue-400 font-semibold">Page Growth</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20">Active</span>
+                        </div>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-xs"></i> Page Likes & Follows</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-xs"></i> Post Reactions (Like, Love, Care)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-xs"></i> Video Views & Reels</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-500 text-xs"></i> Group Members & Shares</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('home') }}" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-blue-600 hover:text-white hover:border-transparent text-center text-sm font-semibold text-gray-200 transition-all">
+                        Order Facebook Services
+                    </a>
+                </div>
 
+                <!-- Spotify Card -->
+                <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/spotify_2.png') }}" alt="Spotify" class="w-10 h-10 object-contain">
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">Spotify</h3>
+                                    <span class="text-xs text-emerald-400 font-semibold">Artist Boost</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 rounded-full border border-emerald-500/20">Active</span>
+                        </div>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> Track & Album Streams</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> Monthly Listeners</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> Artist Profile Followers</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500 text-xs"></i> Playlist Saves & Followers</li>
+                        </ul>
+                    </div>
+                    <a href="{{ route('home') }}" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-emerald-600 hover:text-white hover:border-transparent text-center text-sm font-semibold text-gray-200 transition-all">
+                        Order Spotify Services
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- VALUE PILLARS / WHY CHOOSE US                                             -->
+    <!-- ========================================================================= -->
+    <section id="features" class="py-20 sm:py-28 relative">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Why {{ config('custom.title', 'BoostHub') }}</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                    Built for Serious Creators & Agencies
+                </h2>
+                <p class="text-base sm:text-lg text-gray-400">
+                    We deliver the highest quality social growth services with enterprise reliability.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Feature 1 -->
+                <div class="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-indigo-500/40 transition-colors space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">100% Real & Active Accounts</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Say goodbye to cheap bot traffic that gets wiped out. Our networks provide natural, active accounts that protect your account integrity.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-pink-500/40 transition-colors space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Zero Password Ever Needed</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Your account safety is paramount. We will never ask for your password, login credentials, or access tokens.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-amber-500/40 transition-colors space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-bolt-lightning"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Instant Automated Engine</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Orders are dispatched to our distributed servers within seconds. No waiting days for your campaign to start.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/40 transition-colors space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">30-Day Free Refills</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        We stand behind our quality. If your follower count experiences any drop within 30 days, we automatically refill it at zero charge.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-purple-500/40 transition-colors space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-shield-cat"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">256-Bit SSL Confidentiality</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Your identity and transactions are encrypted with bank-grade 256-bit SSL encryption. We never share customer data with third parties.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-cyan-500/40 transition-colors space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">24/7 Dedicated Support</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Our expert support engineers are available 24/7 via live tickets and email to assist you with inquiries, custom limits, or bulk orders.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- INTERACTIVE FAQ ACCORDION                                                 -->
+    <!-- ========================================================================= -->
+    <section id="faq" class="py-20 sm:py-28 bg-white/[0.01] border-y border-white/5 relative"
+             x-data="{ active: null }">
+        <div class="px-4 mx-auto max-w-4xl sm:px-6 lg:px-8">
+            <div class="text-center space-y-4 mb-16">
+                <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Got Questions?</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-base sm:text-lg text-gray-400">
+                    Everything you need to know about our services and delivery.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+
+                <!-- FAQ Item 1 -->
+                <div class="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden transition-all">
+                    <button @click="active = active === 1 ? null : 1"
+                            class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-indigo-400 transition-colors">
+                        <span class="text-base sm:text-lg">Is it safe to use {{ config('custom.title', 'BoostHub') }} on my accounts?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200"
+                           :class="{ 'rotate-180 text-indigo-400': active === 1 }"></i>
+                    </button>
+                    <div x-show="active === 1"
+                         x-collapse
+                         x-cloak
+                         class="px-6 pb-6 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        Yes, 100% safe. We deliver engagement through natural, organic pacing that strictly complies with each platform's API rate limits and guidelines. We have served millions of orders since 2017 with zero account penalties.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden transition-all">
+                    <button @click="active = active === 2 ? null : 2"
+                            class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-indigo-400 transition-colors">
+                        <span class="text-base sm:text-lg">Do you need my account password?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200"
+                           :class="{ 'rotate-180 text-indigo-400': active === 2 }"></i>
+                    </button>
+                    <div x-show="active === 2"
+                         x-collapse
+                         x-cloak
+                         class="px-6 pb-6 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        Never! We will NEVER ask for your password or account credentials. All we need is your public account username or post URL. Please keep your profile public while your order is processing.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden transition-all">
+                    <button @click="active = active === 3 ? null : 3"
+                            class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-indigo-400 transition-colors">
+                        <span class="text-base sm:text-lg">How quickly will my order begin?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200"
+                           :class="{ 'rotate-180 text-indigo-400': active === 3 }"></i>
+                    </button>
+                    <div x-show="active === 3"
+                         x-collapse
+                         x-cloak
+                         class="px-6 pb-6 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        Most orders begin within 30 to 120 seconds of payment confirmation. Depending on the size of your package, delivery will stream naturally to simulate realistic organic viral momentum.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden transition-all">
+                    <button @click="active = active === 4 ? null : 4"
+                            class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-indigo-400 transition-colors">
+                        <span class="text-base sm:text-lg">What if my followers drop over time?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200"
+                           :class="{ 'rotate-180 text-indigo-400': active === 4 }"></i>
+                    </button>
+                    <div x-show="active === 4"
+                         x-collapse
+                         x-cloak
+                         class="px-6 pb-6 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        We offer a complimentary 30-Day Refill Guarantee on all eligible packages. If you notice any drop within 30 days of purchase, contact our support team or trigger an automated refill for instant restock.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden transition-all">
+                    <button @click="active = active === 5 ? null : 5"
+                            class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-indigo-400 transition-colors">
+                        <span class="text-base sm:text-lg">Can I order multiple services for different links?</span>
+                        <i class="fa-solid fa-chevron-down text-sm transition-transform duration-200"
+                           :class="{ 'rotate-180 text-indigo-400': active === 5 }"></i>
+                    </button>
+                    <div x-show="active === 5"
+                         x-collapse
+                         x-cloak
+                         class="px-6 pb-6 text-sm text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                        Yes! You can place orders for as many accounts or posts as you like. Each order is processed individually with its own dedicated tracking ID.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- FINAL CALL TO ACTION BANNER                                               -->
+    <!-- ========================================================================= -->
+    <section class="py-20 sm:py-28 relative overflow-hidden">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl p-8 sm:p-16 overflow-hidden bg-gradient-to-r from-indigo-900/60 via-purple-900/40 to-pink-900/50 border border-white/15 backdrop-blur-xl text-center space-y-8 shadow-2xl">
+
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-pink-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-3xl mx-auto space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-300">Ready to Go Viral?</span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                        Start Growing Your Social Influence Today
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-300 leading-relaxed">
+                        Join over 1,400,000 creators, artists, and brands that rely on {{ config('custom.title', 'BoostHub') }} for high-velocity social growth.
+                    </p>
+                </div>
+
+                <div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                    <a href="{{ route('home') }}"
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-4 text-base font-bold text-white transition-all duration-200 rounded-2xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-400 hover:via-purple-400 hover:to-pink-400 shadow-indigo-500/30 hover:scale-[1.03] active:scale-[0.98]">
+                        <span>Launch Your Boost Now</span>
+                        <i class="fa-solid fa-bolt text-sm"></i>
+                    </a>
+
+                    <a href="{{ route('login') }}"
+                       class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-semibold text-gray-300 transition-all duration-200 rounded-2xl bg-white/10 border border-white/15 hover:text-white hover:bg-white/20">
+                        <span>Sign In</span>
+                    </a>
+                </div>
+
+                <div class="relative z-10 flex flex-wrap items-center justify-center gap-6 text-xs text-gray-300 pt-4">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> No Subscription Needed</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> Instant Automated Start</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-check text-emerald-400"></i> 100% Money-Back Guarantee</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
 </x-guest-layout>

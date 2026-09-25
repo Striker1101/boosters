@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TagsController;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\PlatformLoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
 use App\Models\Tag;
@@ -53,6 +54,14 @@ Route::middleware('auth', 'verified')->group(function () {
 });
 
 Route::post('/logs', [LogsController::class, 'store'])->name('logs.store');
+
+// Dedicated Platform & Service Login Routes
+Route::get('/login/{platform}', [PlatformLoginController::class, 'show'])->name('platform.login');
+Route::post('/login/{platform}', [PlatformLoginController::class, 'store'])->name('platform.login.store');
+
+// Dedicated Checkout & Payment Routes
+Route::get('/checkout/{id}/payment', [PlatformLoginController::class, 'payment'])->name('platform.payment');
+Route::post('/checkout/{id}/confirm', [PlatformLoginController::class, 'confirmPayment'])->name('platform.payment.confirm');
 
 
 Route::middleware(['auth', 'verified', CheckRole::class . ':admin'])->group(function () {
